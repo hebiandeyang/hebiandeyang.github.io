@@ -1,0 +1,22 @@
+<html><head>
+	<style>
+		body {
+			color: red;
+			background-color: #FFFFFF;
+		
+
+	font-size: 16px;
+			@font-face { font-family: Minecraft; src: url("https://hebiandeyang.github.io/fonts/Minecraft.ttf/") format(“opentype”);
+			font-weight: bold;
+		
+
+}
+	</style>
+</head>
+<body>
+	<h1>Test</h1>
+	<p>HTML5+CSS3.0！！ Font Test!!!</p>
+
+
+
+</body></html>
