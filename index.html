@@ -9,7 +9,35 @@
 
 <body>
     <div id="bigbox">
-        <div id="banner">
+        <div id="audio_btn" class="rotate">
+    <style type="text/css">#audio_btn {
+    width: 30px;
+    height: 30px;
+    background-image: url(https://hebiandeyang.github.io/svg/normalmusic.svg);
+    background-size: contain;
+}
+
+.rotate {
+    -webkit-animation: rotating 1.2s linear infinite;
+    -moz-animation: rotating 1.2s linear infinite;
+    -o-animation: rotating 1.2s linear infinite;
+    animation: rotating 1.2s linear infinite
+}
+
+@-webkit-keyframes rotating {
+    from { -webkit-transform: rotate(0) }
+    to { -webkit-transform: rotate(360deg) }
+}
+
+@keyframes rotating {
+    from { transform: rotate(0) }
+    to { transform: rotate(360deg) }
+}
+@-moz-keyframes rotating {
+    from { -moz-transform: rotate(0) }
+    to { -moz-transform: rotate(360deg) }
+}</style><audio loop="-1" src="/upload/2023-12-02/97610b90dd1bf64582c2c22df68f33e4.mp3" id="media" autoplay="autoplay" preload="preload"></audio>
+</div><div id="banner">
             <img alt="" src="https://hebiandeyang.github.io/picture/banner.gif">
         </div>
         <nav>
@@ -95,95 +123,15 @@
                     </p>
                 </div>
             </div>
-        <div id="luxing">
-            <h2>BGM</h2>
-<embed id="audio-player" src="https://hebiandeyang.github.io/upload/2023-12-02/97610b90dd1bf64582c2c22df68f33e4.mp3" autoplay="autoplay" preload="auto" controls="controls" loop="-1" hidden="true"><style type="text/css">#audio-player {
-  width: 1000px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* 时间线 */
-#timeline {
-  width: 400px;
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-#total-time {
-  width: 100%;
-  height: 10px;
-  border-radius: 20px;
-  background: #063f60;
-  margin: 10px;
-  position: relative;
-}
-
-#current-timeline {
-  height: 10px;
-  border-radius: 20px 0 0 20px;
-  background: #87ffc3;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#time-display {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  color: gray;
-}
-
-/* 操作音频 */
-#operations {
-  display: flex;
-  justify-content: center;
-}
-
-button {
-  background: transparent;
-  border: 0;
-  width: 40px;
-  margin: 10px 20px;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-button > img {
-  width: 100%;
-}
-
-#pause-button {
-  display: none;
-} #audio-player::-webkit-media-controls-panel {
-  background: lightblue;
-}
-
-#audio-player::-webkit-media-controls-current-time-display {
-  color: red;
-  font-weight: bold;
-}
-
-#audio-player::-webkit-media-controls-time-remaining-display {
-  color: gray;
-}</style>
-
-        </div>
+        
             
-<footer>
+
+    </div><footer>
                    <p>
                 回南市服务器管理委员会 版权所有　　推荐使用1024*768以上分辨率，否则会影响使用　　推荐使用Firefox(火狐)或IE8浏览器操作
             </p> 
-        </footer>
-    </div></div>
+        </footer></div>
+
 
 
 
