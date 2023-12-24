@@ -1,0 +1,51 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+// 修改此域名即可
+var mainDomain = "yqedu.com.cn";
+//
+var homeURL = 'https://web.archive.org/web/20040517221105/http://www.'+ mainDomain;
+var newsURL = 'https://web.archive.org/web/20040517221105/http://news.'+ mainDomain;
+var resourceURL = 'https://web.archive.org/web/20040517221105/http://resource.'+ mainDomain;
+var oaURL = 'https://web.archive.org/web/20040517221105/http://oa.'+ mainDomain;
+var eduURL = 'https://web.archive.org/web/20040517221105/http://edu.'+ mainDomain;
+var homepageURL = 'https://web.archive.org/web/20040517221105/http://homepage.'+ mainDomain;
+var myURL = 'https://web.archive.org/web/20040517221105/http://my.'+ mainDomain;
+var bbsURL = 'https://web.archive.org/web/20040517221105/http://bbs.'+ mainDomain;
+var chatURL = 'https://web.archive.org/web/20040517221105/http://chat.'+ mainDomain;
+var mailURL = 'https://web.archive.org/web/20040517221105/http://mail.'+ mainDomain;
+var helpURL = 'https://web.archive.org/web/20040517221105/http://help.'+ mainDomain;
+var authURL = 'https://web.archive.org/web/20040517221105/http://auth.'+ mainDomain;
+var commentURL = 'https://web.archive.org/web/20040517221105/http://comment.'+ mainDomain;
+
+
+}
+/*
+     FILE ARCHIVED ON 22:11:05 May 17, 2004 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 03:26:29 Dec 23, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 137.419
+  exclusion.robots: 0.061
+  exclusion.robots.policy: 0.053
+  cdx.remote: 0.057
+  esindex: 0.009
+  LoadShardBlock: 111.437 (3)
+  PetaboxLoader3.datanode: 142.805 (4)
+  load_resource: 132.056
+  PetaboxLoader3.resolve: 77.995
+*/
