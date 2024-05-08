@@ -1,0 +1,734 @@
+var s;
+var timer;
+var ss=true;
+var true_answer=0;
+var userId=$.cookie("nickname");
+var uid=$.cookie('uid');
+var mm=false;
+var u_yzm;
+var newIp="https://ytapi.radio.cn/ytsrv/srv";//登录、注册、找回密码、第三方登录等接口ip,2020-03月修改
+$("input.carId").parent().remove();
+/*$.cookie("logName",null);
+$.cookie("uid",null);
+$.cookie("logPass",null);
+$.cookie("nickname",null);*/
+
+if($.cookie("nickname")!="null"&&$.cookie("nickname")!=null){
+    $(".login").html($.cookie("nickname")+"<a href='javascript:;' class='bye'>退出</a>");
+}else{
+    //console.log(userId+":"+uid);
+}
+$(".login").on("click",".bye",function(){
+    if(confirm("您确定要退出吗？")){
+        // $(".login").html('<a href="javascript:;" class="register_btn">注册</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" class="login_btn">登录</a>');
+        $(".login").html('<a href="javascript:;" class="login_btn">登录</a>');
+        $.cookie("logName",null, {path: '/'});
+        $.cookie("uid",null, {path: '/'});
+        //$.cookie("logPass",null, {path: '/'});
+        $.cookie("nickname",null, {path: '/'});  
+    }
+})
+$(".user_box .message").eq(0).show();
+$(".user_box3 .message").eq(0).show();
+$(".user_box h2 a").click(function(){
+	var n=$(this).index();
+	$(this).addClass("check").siblings().removeClass("check");
+	$(".user_box .message").hide();
+	$(".user_box .message").eq(n).show();
+})
+$(".user_box3 h2 a").click(function(){
+	var n=$(this).index();
+	$(this).addClass("check").siblings().removeClass("check");
+	$(".user_box3 .message").hide();
+	$(".user_box3 .message").eq(n).show();
+})
+$(".email").blur(function(){
+    var email=$(this).val();
+    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;  
+    if(reg.test(email)){
+    	$(this).next("span").hide();
+    }else{
+    	$(this).next("span").show();
+    }
+})
+$(".username").blur(function(){
+    var username=$(this).val();
+	var reg=/^[\u0391-\uFFE5A-Za-z0-9]{4,20}$/;
+	if(reg.test(username)){
+    	$(this).next("span").hide();
+    }else{
+    	$(this).next("span").show();
+    }
+})
+$(".log_name").blur(function(){
+    var username=$(this).val();
+    var reg1 = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;  
+    var reg2 = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/; 
+    if(reg1.test(username)||reg2.test(username)){
+        $(this).next("span").hide();
+        //console.log("用户名正确");
+    }else{
+        $(this).next("span").show();
+        //console.log("用户名错误");
+    }
+})
+$(".pwd").blur(function(){
+    var pwd=$(this).val();
+    //var reg=/^[A-Za-z0-9]{6,20}$/;
+    if(pwd.length>=6&&pwd.length<=20){
+        $(this).next("span").hide();
+    }else{
+        $(this).next("span").show();
+    }
+})
+$(".a_pwd").blur(function(){
+	var a_pwd=$(this).val();
+	var pwd=$(this).parent().prev("div").find(".pwd").val();
+	if(a_pwd==pwd){
+		$(this).next("span").hide();
+	}else{
+		$(this).next("span").show();
+	}
+})
+$(".carId").blur(function(){
+    // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    var card=$(this).val();
+    if(reg.test(card) === false)
+    {
+        $(this).next("span").show();
+    }else {
+        $(this).next("span").hide();
+    }
+});
+$(".send").click(function(){     
+        var phone=$(this).prev(".phoneNum").val();
+        var phone_reg = /^((1)+\d{10})$/; 
+        // var phone_reg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/; 
+        if(phone_reg.test(phone)){
+            if(ss){
+                s=60;
+                ss=false;
+                clearInterval(timer); 
+                countDown();     
+                timer=setInterval(countDown,1000);
+            }else{
+                return false;
+            }
+            $.ajax({
+                url:newIp+"/pcUserOperation/sendVerificationCode",
+                type: 'post',    
+                data:{
+                    "plantName":"CCYT",
+                    "mobilNumber":phone,
+                    "businessType":1014
+                    }, 
+                headers:{
+                    "Content-Type":"application/x-www-form-urlencoded",
+                    "providerCode":"25010",
+                    "version":"4.0.0",
+                    "equipmentSource":"WEB"
+                },      
+                success: function(data){
+                    console.log("手机号码发送成功");
+                    if(data.rt=="1"){
+                        //console.log("手机号码发送成功");
+                    }
+                    
+                },
+                error:function(){
+                    //console.log("发送失败");
+                }
+            }) 
+        }else{
+            alert("请输入有效的手机号码");
+        }
+
+
+})
+function countDown(){
+    s--;
+    if(s<=0){
+   	    clearInterval(timer);
+   	    $(".send").html("发送验证码");
+   	    ss=true;
+    }else{
+   	    $(".send").disabled = true;
+   	    $(".send").html(s+"秒后重试");
+    }
+  
+
+}
+//验证码失去焦点验证
+/*$(".yzm").blur(function(){
+    var phone=$(this).parents("form").find(".phoneNum").val();
+    var yzm=$(this).parents("form").find(".yzm").val();
+    var that=$(this).next();
+    console.log(that);
+    $.ajax({
+        url:"http://tacc.radio.cn/user/checkyanzm",
+        type: 'GET',  
+        dataType : "jsonp",//数据类型为jsonp  
+        jsonp: "callback",   
+        async:false,
+        data:{
+            "phone":phone,
+            "token":"123456",
+            "yzm":yzm
+            },  
+        success: function(data){
+            console.log(data);
+            if(data.message=="验证码通过"){
+                console.log("验证码正确");
+                that.hide();
+            }else if(data.message=="param fail"){
+                that.show().text("验证码有误");
+                mm=false;
+                console.log("验证码有误");
+            }else{
+                that.show().text(data.message);
+                mm=false;
+                console.log(data.message);
+            }
+        }
+    })
+})*/
+$(".next").click(function(){
+    var phone=$(this).parents("form").find(".phoneNum").val();
+    var yzm=$(this).parents("form").find(".yzm").val();
+    u_yzm=yzm;
+    var that=$(this).parent().prev().find("span");
+    if(phone&&yzm){
+        that.hide();
+        mm=true;
+        that.parents("form").hide().next(".find2").show();
+    }else{
+        var n=$(this).parents("form").find("span:visible").length;
+            //判断输入框是否全部填写
+            for(var i=0;i<$(this).parents("form").find("input:text").length;i++){
+                if($(this).parents("form").find("input:text").eq(i).val()==""){
+                    alert("请补全信息");
+                    return false;
+                }
+            }
+            //判断是否有不规范的输入
+            if(n!=0){
+               alert("请按要求填写");
+               return false;
+            }else{
+                //console.log("全部符合要求");
+            }
+    }
+    //console.log(phone+yzm);
+    /*$.ajax({
+        url:"http://tacc.radio.cn/user/checkyanzm",
+        type: 'GET',  
+        dataType : "jsonp",//数据类型为jsonp  
+        jsonp: "callback",   
+        async:false,
+        data:{
+            "phone":phone,
+            "token":"123456",
+            "yzm":yzm
+            },  
+        success: function(data){
+            console.log(data);
+            if(data.message=="验证码通过"){
+                //console.log("验证码正确");
+                that.hide();
+                mm=true;
+            }else if(data.message=="param fail"){
+                that.show().text("验证码有误");
+                //console.log("验证码有误");
+                mm=false;
+            }else{
+                that.show().text(data.message);
+                //console.log(data.message);
+                mm=false;
+            }
+            if(!mm){alert("请按照要求填写"); return false;}
+            var n=$(this).parents("form").find("span:visible").length;
+            //判断输入框是否全部填写
+            for(var i=0;i<$(this).parents("form").find("input:text").length;i++){
+                if($(this).parents("form").find("input:text").eq(i).val()==""){
+                    alert("请补全信息");
+                    return false;
+                }
+            }
+            //判断是否有不规范的输入
+            if(n!=0){
+               alert("请按要求填写");
+               return false;
+            }else{
+                //console.log("全部符合要求");
+            }
+            that.parents("form").hide().next(".find2").show();
+            //console.log($(this).parents("form").hide().next(".find2"));
+        }
+    })*/
+})
+$(".sbm").click(function(){
+	//判断输入框是否全部填写
+	for(var i=0;i<$(this).parents("form").find("input:text").length;i++){
+		if($(this).parents("form").find("input:text").eq(i).val()==""){
+            alert("请补全信息");
+			return false;
+		}
+	}
+    var sbm=$(this);
+    var phone=$(this).parents("form").find(".phoneNum").val();
+    var yzm=$(this).parents("form").find(".yzm").val();
+    var that=$(".yzm").next();
+    var username=$(this).parents("form").find(".phoneNum").val();
+    var nickname=$(this).parents("form").find(".username").val();
+    var userpass=$(this).parents("form").find(".pwd").val();
+    var idcard=$(this).parents("form").find(".carId").val();
+    //判断是否有不规范的输入
+    var n=that.parents("form").find("span:visible").length;
+    //console.log(n);
+    var m=that.parents("form").find("span:hidden").length;
+    //console.log(m);
+    if(n!=1){
+       //console.log("请按要求填写"+n);
+       //$(this).parents("form").find("input").val("");
+       return false;
+    }
+    if($(this).text()=="提交注册"){
+        $(this).text("注册中...");
+    }else{
+        return false;
+    }
+    $.ajax({
+        url:newIp+"/pcUserOperation/register",
+        type: "POST",    
+        async:false, 
+        data:{
+            "phone":parseData.enc(username),
+            //"userIcon":"",
+            //"sysCode":"",
+            "verificationCode":parseData.enc(yzm),
+            "userSex":parseData.enc('-1'),
+            //"contactInfo":"",
+            //"userAddress":"",
+            //"userBirthday":"",
+            "password":parseData.enc(userpass),
+            "nickName":parseData.enc(nickname),
+            //"userName":"",
+            "sysCode":parseData.enc("CCYT"),
+            //"equipment":"",
+            //"invitationCode":""
+            },  
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded",
+            "providerCode":"25010",
+            "version":"4.0.0",
+            "equipmentSource":"WEB"
+        },     
+        success: function(data){
+            console.log(parseData.dec(data.replace(/\n/g,'')));
+            data=parseData.dec(data.replace(/\n/g,''));
+            if(data.rt==1){
+                alert("注册成功");
+                closeAll();
+            }else if(data.message=="手机号存在，如忘记密码可以短信找回"){
+                alert("手机号存在，如忘记密码可以短信找回");
+            }
+            else{
+                alert(data.des);
+            }
+            sbm.text("提交注册");
+        },
+        error:function(){
+            //console.log("发送失败");
+            sbm.text("提交注册");
+        }
+    })
+/*    $.ajax({
+        url:"http://tacc.radio.cn/user/checkyanzm",
+        type: 'GET',  
+        dataType : "jsonp",//数据类型为jsonp  
+        jsonp: "callback",   
+        async:false,
+        data:{
+            "phone":phone,
+            "token":"123456",
+            "yzm":yzm
+            },  
+        success: function(data){
+            console.log(data);
+            if(data.message=="验证码通过"){
+                console.log("验证码正确");
+                that.hide();
+                //判断是否有不规范的输入
+                var n=that.parents("form").find("span:visible").length;
+                console.log(n);
+                var m=that.parents("form").find("span:hidden").length;
+                console.log(m);
+                if(n!=1){
+                   console.log("请按要求填写"+n);
+                   //$(this).parents("form").find("input").val("");
+                   return false;
+                }
+                var username=$(this).parents("form").find(".phoneNum").val();
+                var nickname=$(this).parents("form").find(".username").val();
+                var userpass=$(this).parents("form").find(".pwd").val();
+                $.ajax({
+                    url:"http://tacc.radio.cn/user/register",
+                    type: 'GET',  
+                    dataType : "jsonp",//数据类型为jsonp  
+                    jsonp: "callback",   
+                    async:false,
+                    data:{
+                        "nickname":nickname,
+                        "uimg":"",
+                        "username":username,
+                        "userpass":userpass,
+                        "source":1,
+                        "token":"123456"
+                        },  
+                    success: function(data){
+                        console.log(data);
+                        if(data.message=="注册成功"){
+                            alert("注册成功");
+                            closeAll();
+                        }else if(data.message=="手机号存在，如忘记密码可以短信找回"){
+                            alert("手机号存在，如忘记密码可以短信找回");
+                        }
+                        else{
+                            alert("注册失败,请重试");
+                        }
+                    },
+                    error:function(){
+                        console.log("发送失败");
+                    }
+                })
+            }else if(data.message=="param fail"){
+                that.show().text("验证码有误");
+                mm=false;
+                alert("验证码有误,请重新输入");
+                console.log("验证码有误");
+                //alert("请按要求填写");
+                //return false;
+            }else{
+                that.show().text(data.message);
+                mm=false;
+                console.log(data.message);
+                alert(data.message+",请重新输入");
+                //return false;
+            }
+        }
+    })*/
+
+
+})
+$(".w_login").click(function(){
+    var n=$(this).parents("form").find("span:visible").length;  
+    //判断输入框是否全部填写
+    for(var i=0;i<$(this).parents("form").find("input:text").length;i++){
+        if($(this).parents("form").find("input:text").eq(i).val()==""){
+            alert("请补全信息");
+            return false;
+        }
+    }
+    //判断是否有不规范的输入
+    if(n!=1){
+       alert("请按要求填写");
+       return false;
+    }
+    if($(this).text()!=="登录"){return false;}
+    var username=$(this).parents("form").find(".log_name").val();
+    var userpass=$(this).parents("form").find(".pwd").val();
+    $(this).text("登录中...");
+    var that=this;
+    $.ajax({
+        url:newIp+"/pcUserOperation/login",
+        type: 'POST',   
+        data:{
+            "phone":parseData.enc(username),//"Vot15rV32PUoKgRWoMbjWw==",
+            "password":parseData.enc(userpass),//"V3Ov/zgQ1IEUaEepwQkfdQ==",
+            //"version":"xqhyYnyQvkvhA2GCpGiIBg",
+            //"equipment":"",
+            //"verificationCode":"",
+            "loginType":parseData.enc('0')
+            },  
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded",
+            "providerCode":"25010",
+            "version":"4.0.0",
+            "equipmentSource":"WEB"
+        },    
+        success: function(data){
+            //console.log(parseData.dec(data.replace(/\n/g,'')));
+            data=parseData.dec(data.replace(/\n/g,''));
+            $(that).text("登录");
+            if(data.rt==1){
+                closeAll();
+                //console.log(data);
+                $(".login").html(data.con[0]["nickName"]+'<a href="javascript:;" class="bye">退出</a>');
+                if($(".rember span").text()!=""){
+                    //$.cookie("logName",username, {expires: 7,path: '/'});
+                    //$.cookie("uid",data.con[0]["id"], {expires: 7,path: '/'});
+                    //$.cookie("logPass",userpass, {expires: 7,path: '/'});
+                    $.cookie("nickname",data.con[0]["nickName"], {expires: 7,path: '/'});
+                    var name=$.cookie("nickname");
+                    //console.log(name);  
+                }else{
+                    //$.cookie("logName",username, {path: '/'});
+                    //$.cookie("uid",data.con[0]["id"], {path: '/'});
+                    //$.cookie("logPass",userpass, {path: '/'});
+                    $.cookie("nickname",data.con[0]["nickName"], {path: '/'});  
+                }             
+            }else{
+                alert(data.des);
+            }
+        },
+        error:function(){
+            console.log("发送失败");
+        }
+    })
+
+})    
+$(".login").on("click",".register_btn",function(){
+    closeAll();
+    $(".mask").show();
+    $(".user_box").show();
+})
+$(".register_btn").click(function(){
+    closeAll();
+    $(".mask").show();
+    $(".user_box").show();
+})
+$(".mask").click(function(){
+    closeAll();
+})
+$(".login").on("click",".login_btn",function(){
+    $(".mask").show();
+    $(".user_box").hide();
+    $(".user_box3").hide();
+    $(".user_box2").show();
+})
+$(".login_btn").click(function(){
+    $(".mask").show();
+    $(".user_box").hide();
+    $(".user_box3").hide();
+    $(".user_box2").show();
+})
+$(".findCode").click(function(){
+	$(".user_box2").hide();
+	$(".user_box3").show();
+})
+/*$(".next").click(function(){
+    if(!mm){alert("请按照要求填写"); return false;}
+    var n=$(this).parents("form").find("span:visible").length;
+    //判断输入框是否全部填写
+    for(var i=0;i<$(this).parents("form").find("input:text").length;i++){
+        if($(this).parents("form").find("input:text").eq(i).val()==""){
+            alert("请补全信息");
+            return false;
+        }
+    }
+    //判断是否有不规范的输入
+    if(n!=0){
+       alert("请按要求填写");
+       return false;
+    }else{
+        console.log("全部符合要求");
+    }
+    $(this).parents("form").hide().next(".find2").show();
+})*/
+function closeAll(){
+    $(".mask").hide();
+    $(".user_box").hide();
+    $(".user_box2").hide();
+    $(".user_box3").hide();
+    $(".user_box input").val("").next("span").hide();
+    $(".user_box2 input").val("");
+    $(".user_box3 input").val("");
+    $(".w_login").text("登录");
+    $(".user_box2 .message form>div>span").hide();
+}
+$(".deal").click(function(){
+    var phoneNum=$(this).parents("form").prev("form").find(".phoneNum").val();
+    var password=$(this).parents("form").find(".pwd").val();
+    var that=$(this);
+    $(this).parents("form").prev("form").find(".phoneNum").val("");
+    $(this).parents("form").find(".pwd").val("");
+    $.ajax({
+        url:newIp+"/pcUserOperation/resetPassword",
+        type: 'post',  
+        //dataType : "jsonp",//数据类型为jsonp  
+        //jsonp: "callback",   
+        data:{
+            "phone":parseData.enc(phoneNum),
+            "equipment":parseData.enc("CCYT"),
+            "password":parseData.enc(password),
+            "randomCode":parseData.enc(u_yzm),
+            "resetType":1
+            },  
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded",
+            "providerCode":"25010",
+            "version":"4.0.0",
+            "equipmentSource":"WEB"
+        },     
+        success: function(data){
+            data=parseData.dec(data.replace(/\n/g,''));
+            if(data.rt!=1){
+                alert("密码重置失败,请重试");
+            }else{
+                closeAll();
+                $(".mask").show();
+                $(".user_box2").show();
+                $(".user_box2 .message form>div>span").hide();
+                clearInterval(timer);
+                $(".send").html("发送验证码");
+                ss=true;
+            }
+            that.parents(".message").find("input").val("");
+            //console.log(that.parents(".message").find("input"));
+            $(".message form").eq(0).show();
+
+        },
+        error:function(){
+            alert("密码重置失败,请重试");
+        }
+    })  
+    $(".find1").show();  
+    $(".find2").hide();  
+})
+function checkToggle(the){
+    $(the).html()?$(the).html(""):$(the).html("√");
+}
+$(".rember span").click(function(){
+    checkToggle(this);
+})
+$(".agree span").click(function(){
+    checkToggle(this);
+})
+//判断是否登录
+function isLogin(){
+    console.log("判断是否登陆"); 
+    if($.cookie("nickname")!="null"&&$.cookie("nickname")!=null){
+        //console.log(uid+"已经登录");
+        //console.log($.cookie("uid"));
+        //return uid;
+    }else{
+        $(".user_box2").show();
+        $(".mask").show();
+        return false;
+    }
+}
+//弹出控制器
+function showContro(){
+    $("#HiRadioPlayer").animate({left: '0'},300);
+    $("#rightArrow").animate({left: '906px'},300);
+    $("#rightArrow").css('background-position','-100px 0');
+}
+//删除全部数据
+function deleteAllVodOther(){
+    //console.log("删除全部数据？");
+    $.ajax({
+        url:'http://tacc.radio.cn/userpreference/cancecollectall',
+        type: 'GET',
+        dataType : "JSONP",
+        jsonp: "callback",
+        data:{'uid':uid,"token":"12345678"},
+        success:function(data){
+            //console.log(data);
+        },
+        error:function(){
+            //console.log("全部删除失败");
+        }
+    })    
+        $("#programList tr").each(function () {
+            $(this).children("td:nth-child(4)").children().children().attr("src","../image/icon_15.gif");
+    });
+}
+
+//搜索框获取焦点时显示搜索记录
+$("#searchAll").focus(function(){
+    var searchWord=$.cookie("searchWord")?$.cookie("searchWord"):"";
+    var str="";
+    searchWord=searchWord.split(",").reverse();
+    for(var i=0;i<searchWord.length;i++){
+        str+='<p>'+searchWord[i]+'</p>';
+    }
+    if(searchWord.length!=0){
+        $(".search_record").show();
+    }
+    $(".search_record").html(str);
+    //search_record
+})
+
+
+$("#searchAll").blur(function(){
+    $(".search_record").on("click","p",function(){
+        $("#searchAll").val($(this).text());
+        $(".search_record").hide();
+        if($(this).text()=="搜索节目"){
+           $("#searchAll").focus();
+        }
+    }) 
+    setTimeout(function(){
+        $(".search_record").hide();
+    },200);
+    
+})
+
+//otherLogin();
+function otherLogin(){
+    $.ajax({
+        url:newIp+"/pcUserOperation/otherLogin",
+        type: 'post',  
+        //dataType : "jsonp",//数据类型为jsonp  
+        //jsonp: "callback",   
+        data:{
+            "accountNumber":parseData.enc("775086610"),
+            "nickName":parseData.enc("略"),
+            "type":parseData.enc("1"),
+            "userSex":parseData.enc("-1")
+            },  
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded",
+            "providerCode":"25010",
+            "version":"4.0.0",
+            "equipmentSource":"WEB"
+        },     
+        success: function(data){
+            console.log(data);
+            
+            
+
+        },
+        error:function(){
+            alert("密码重置失败,请重试");
+        }
+    })
+}
+
+/**
+ * 异常情况提示弹窗
+ */
+$(function() {
+    var cookie_key = 'ERR_POPUP_SHOW', cookie_val = 'YES';
+    if (!$.cookie(cookie_key)) {
+      // 将弹窗元素添加到body中
+      var errPopup = '<div id="err-popup" class="err-popup-container">' +
+          '<div class="err-popup-title">提示</div>' +
+          '<div class="err-popup-content">若您遇到网站打开异常情况，请尝试清理浏览器缓存</div>' +
+          '<div class="err-popup-btn">好的</div>' +
+          '</div>';
+      $('body').append(errPopup);
+      // 获取元素
+      var $errPopup = $('#err-popup');
+      // console.log($errPopup.length)
+      if ($errPopup.length) {
+        $errPopup.fadeIn(); // 显示弹窗
+        // 点击按钮隐藏
+        $errPopup.find('.err-popup-btn').click(function() {
+          $errPopup.fadeOut();
+          $.cookie(cookie_key, cookie_val, {path: '/'})
+        })
+      }
+    }
+});

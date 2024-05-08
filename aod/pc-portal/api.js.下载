@@ -1,0 +1,183 @@
+(function(w) {
+    var isTest = 0
+    var key = 'f0fc4c668392f9f9a447e48584c214ee'
+    var md5 = function(str) {
+        return CryptoJS.MD5(str).toString().toUpperCase()
+    }
+
+    var apiConfig = {
+        // msTsApi: 'https://hzmsouttest.radio.cn',
+        msTsApi: 'https://hzmsintest.radio.cn',
+        ssTsApi: 'https://hzapitest.radio.cn/ytsrv/srv',
+        msApi: 'https://ytmsout.radio.cn',
+        ssApi: 'https://ytapi.radio.cn/ytsrv/srv',
+        ssHeader: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "version": "4.0.0",
+            "providerCode": "25010",
+            "equipmentSource": "WEB"
+        },
+        msHeader: {
+            // timestamp: new Date().getTime(),
+            // sign: '',
+            "Content-Type": "application/json",
+            "equipmentId": "0000",
+            // "versionId": '0',
+            "platformCode": "WEB"
+        }
+    }
+
+    // // 获取sign参数(使用其它参数排序后，拼接Key，转为大写MD5串)
+    var getParamsOrderByKey = function(params, methodType) {
+        if (!methodType) methodType = 'get'
+        methodType = methodType.toUpperCase()
+        if (methodType === 'POST') {
+            return JSON.stringify(params)
+        } else {
+            var sortArr = Object.keys(params).sort();
+            var sortParams = [];
+            var tmpKey = '';
+            if (sortArr.length) {
+                for (var i = 0; i < sortArr.length; i++) {
+                    tmpKey = sortArr[i];
+                    sortParams.push(tmpKey + '=' + params[tmpKey])
+                }
+            }
+            return sortParams.join('&')
+        }
+    }
+
+    var API = {
+        getStaticData: {
+            // url: '/interactive/getInterface',
+            url: '/web/interactive/getInterface',
+            method: 'get',
+            // uType: 1
+        },
+        getRadioProvinceList: {
+            url: '/web/appProvince/list/all',
+            method: 'get',
+        },
+        getRadioCategoryList: {
+            url: '/web/appCategory/list/all',
+            method: 'get',
+        },
+        getRadioList: {
+            url: '/web/appBroadcast/list',
+            method: 'get',
+        },
+        getListenBackList: {
+            url: '/web/appBroadcast/listenbackList',
+            method: 'get',
+        },
+        getProgramList: {
+            url: '/web/appProgram/listByDate',
+            method: 'get',
+        },
+        getPageByColumn: {
+            url: '/web/appProgram/pageByColumn',
+            method: 'get',
+        },
+        getAlbumDetail: {
+            url: '/web/appAlbum/detail',
+            method: 'get',
+        },
+        pageByAlbum: {
+            url: '/web/appSingle/pageByAlbum',
+            method: 'get',
+        }
+    }
+
+    var request = w.request = function(opts) {
+        // var methodType = opts.type || "get";
+        if (!opts.name) return;
+        var url = API[opts.name].url;
+        var uType = API[opts.name].uType || 0; //表示单体服务
+        if (opts.name === 'getStaticData') {
+            opts.data = { id: isTest ? opts.data[1] : opts.data[0] }
+        }
+
+        var baseUrl = apiConfig[(uType ? 'ss' : 'ms') + (isTest ? 'Ts' : '') + 'Api'];
+        // var headers = {};
+        var ajaxOpts = {
+            url: baseUrl + url,
+            type: API[opts.name].method,
+            async: API[opts.name].async === 1 ? false : true,
+            // headers: headers,
+            // beforeSend: function(xhr) {
+            //      xhr.setRequestHeader("Referer", "http://10.50.13.199")
+            // },
+            // contentType: "application/x-www-form-urlencoded",
+            data: opts.data,
+            success: function(res) {
+                var data = null;
+                if (typeof opts.sucFun === 'function') {
+                    if (res && typeof res === 'string') {
+                        if (uType === 0 && opts.name !== 'getStaticData') {
+                            data = JSON.parse($.trim(res)).data;
+                        } else {
+                            data = JSON.parse($.trim(res));
+                        }
+                    } else {
+                        data = res;
+                    }
+                    opts.sucFun(data)
+                };
+            },
+            error: function(err) {
+                if (typeof opts.failFun === 'function') opts.failFun(err);
+            },
+            complete: function() {
+                if (typeof opts.completeFun === 'function') opts.completeFun();
+            }
+        }
+
+        ajaxOpts.headers = apiConfig[(uType === 1 ? 'ss' : 'ms') + 'Header']
+
+
+        if (!uType) {
+            //设置header
+            // if (localStorage) options.headers.uuid = localStorage.getItem('YT_TRACKER_UUID')
+            var tm = new Date().getTime()
+            if(opts.name !== 'getStaticData' && opts.data && Object.keys(opts.data) && Object.keys(opts.data).length === 1) {
+            	ajaxOpts.url += '/' + opts.data[Object.keys(opts.data)[0]]
+            }
+            var signText = (opts.data ? (getParamsOrderByKey(opts.data, API[opts.name].method) + '&') : '') + 'timestamp=' + tm + '&key=' + key
+            ajaxOpts.headers.timestamp = tm;
+            ajaxOpts.headers.sign = md5(signText)
+        }
+
+        if (opts.name === 'uploadImg') {
+            ajaxOpts.processData = false;
+            ajaxOpts.contentType = false;
+        }
+
+        $.ajax(ajaxOpts);
+    }
+    return request;
+})(window, undefined)
+
+// 返回指定时间的字符串
+function dateFtt(fmt, date) {
+    if (fmt && date) {
+        var o = {
+            "M+": date.getMonth() + 1, //月份
+            "d+": date.getDate(), //日
+            "h+": date.getHours(), //小时
+            "m+": date.getMinutes(), //分
+            "s+": date.getSeconds(), //秒
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+            "S": date.getMilliseconds() //毫秒
+        }
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    }
+    return ''
+}

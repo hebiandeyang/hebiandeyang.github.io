@@ -1,0 +1,1220 @@
+var hiradio = new HiRadio();
+var startX = 0;
+var isProcessMove = false;
+var isVoiceMove = false;
+var progressWid = $("#HiRadioPlayer .progressBar").width();
+var voiceWid = $("#HiRadioPlayer .voiceSlider").width();
+var isLive = true;
+var soundNum = 1;
+
+
+$('#HiRadioPlayer').on("click", ".playBtn", function() {
+    console.log(hiradio._playlist.length)
+    if (hiradio._playlist.length == 0) {
+        return;
+    }
+    if ($(this).hasClass('pause')) {
+        hiradio.pause();
+    } else {
+        $(this).addClass('loading');
+        hiradio.play();
+    }
+});
+
+hiradio.media.addEventListener('loadedmetadata', function() {
+    $(".dur").text("/" + timeStyle(hiradio.media.duration));
+});
+hiradio.addEventListener('play', function() {
+    $('#HiRadioPlayer .playBtn').removeClass("loading").addClass("pause");
+});
+hiradio.addEventListener('pause', function() {
+    $('#HiRadioPlayer .playBtn').removeClass("loading pause");
+});
+hiradio.media.addEventListener('error', function() {
+    $('#HiRadioPlayer .playBtn').removeClass("loading pause");
+});
+hiradio.media.addEventListener('ended', function(e) {
+    $('#HiRadioPlayer .playBtn').removeClass("loading pause");
+    $(".after").parents("tr").index() == $("#programList tr").length - 1 ? '' : nextProgram();
+});
+hiradio.media.addEventListener('timeupdate', function() {
+    if (isLive) {
+        $(".cur").hide().siblings(".dur").text(addZero(new Date().getHours()) + ":" + addZero(new Date().getMinutes()) + ":" + addZero(new Date().getSeconds()));
+    } else {
+        $(".cur").show().text(timeStyle(hiradio.media.currentTime));
+    }
+    isProcessMove ? '' : $(".progressBar p").css("width", hiradio.media.currentTime / hiradio.media.duration * 100 + "%");
+});
+
+
+$('#HiRadioPlayer').on("click", ".voice", function(e) {
+    if ($(this).hasClass("mute")) {
+        $(this).removeClass("mute");
+        hiradio.setVolume(soundNum);
+    } else {
+        $(this).addClass("mute");
+        hiradio.setVolume(0);
+    }
+})
+$('#HiRadioPlayer').on("mousedown", ".progressBar,.voiceSlider", function(e) {
+    progressWid = $("#HiRadioPlayer .progressBar").width();
+    voiceWid = $("#HiRadioPlayer .voiceSlider").width();
+    if (hiradio._playlist.length <= 0) { return false; }
+    if ($(e.target).hasClass("progressBar") || $(e.target).parent().hasClass("progressBar")) {
+        if (isLive) {
+            return false;
+        }
+        startX = (e.pageX - $(this).offset().left < 0 ? 0 : e.pageX - $(this).offset().left) > progressWid ? progressWid : e.pageX - $(this).offset().left < 0 ? 0 : e.pageX - $(this).offset().left;
+        $(this).find("p").css({ width: (startX / progressWid).toFixed(2) * 100 + "%" });
+        isProcessMove = true;
+    } else if ($(e.target).hasClass("voiceSlider") || $(e.target).parent().hasClass("voiceSlider")) {
+        startX = (e.pageX - $(this).offset().left < 0 ? 0 : e.pageX - $(this).offset().left) > voiceWid ? voiceWid : e.pageX - $(this).offset().left < 0 ? 0 : e.pageX - $(this).offset().left;
+        $(this).find("p").css({ width: (startX / voiceWid).toFixed(2) * 100 + "%" });
+        isVoiceMove = true;
+    }
+    e.preventDefault();
+})
+$('body').on("mousemove", function(e) {
+    if (!isProcessMove && !isVoiceMove) { return false; }
+    if (isProcessMove && hiradio._playlist.length > 0) {
+        startX = (e.pageX - $("#HiRadioPlayer .progressBar").offset().left < 0 ? 0 : e.pageX - $("#HiRadioPlayer .progressBar").offset().left) > progressWid ? progressWid : e.pageX - $("#HiRadioPlayer .progressBar").offset().left < 0 ? 0 : e.pageX - $("#HiRadioPlayer .progressBar").offset().left;
+        $("#HiRadioPlayer .progressBar").find("p").css({ width: (startX / progressWid).toFixed(2) * 100 + "%" });
+    } else if (isVoiceMove) {
+
+        startX = (e.pageX - $("#HiRadioPlayer .voiceSlider")[0].offsetLeft < 0 ? 0 : e.pageX - $("#HiRadioPlayer .voiceSlider")[0].offsetLeft) > voiceWid ? voiceWid : e.pageX - $("#HiRadioPlayer .voiceSlider")[0].offsetLeft < 0 ? 0 : e.pageX - $("#HiRadioPlayer .voiceSlider")[0].offsetLeft;
+        $("#HiRadioPlayer .voiceSlider").find("p").css({ width: (startX / voiceWid).toFixed(2) * 100 + "%" });
+    }
+    e.preventDefault();
+    //console.log(e);
+})
+$('body').on("mouseup", function(e) {
+    $(this).unbind('mousemove');
+    if (isProcessMove) {
+        $("#HiRadioPlayer .progressBar").find("p").css({ width: (startX / progressWid).toFixed(2) * 100 + "%" })
+        hiradio.seek(startX / progressWid * hiradio.media.duration);
+    } else if (isVoiceMove) {
+        $("#HiRadioPlayer .voiceSlider").find("p").css({ width: (startX / voiceWid).toFixed(2) * 100 + "%" })
+        soundNum = startX / voiceWid;
+        hiradio.setVolume(startX / voiceWid);
+        $("#HiRadioPlayer .voice").removeClass("mute");
+    }
+
+    isProcessMove = false;
+    isVoiceMove = false;
+
+})
+
+//设置时间格式
+function timeStyle(time) {
+    if (time < 60) {
+        return "00:" + addZero(Math.floor(time));
+    } else if (time >= 60 && time != Infinity) {
+        if (Math.floor(time % 60) == 0 || Math.floor(time % 60) == 60) {
+            return addZero(Math.floor(time / 60)) + ":00";
+        } else {
+            return addZero(Math.floor(time / 60)) + ":" + addZero(Math.floor(time % 60));
+        }
+
+    } else {
+        return "00:00";
+    }
+}
+
+function addZero(time) {
+    if (time < 10) {
+        return "0" + time;
+    } else if (time >= 10 && time != Infinity) {
+        return time;
+    } else {
+        return "00";
+    }
+}
+
+
+
+
+
+
+var COOKIE_NAME = "vodlist"; //cookie key
+/** 收藏列表内容  **/
+/* 设置播放焦点。*/
+var focus = "listFocus"; //默认收藏列表
+var pageFocus = "pageFocus"; //页面
+var listFocus = "listFocus"; //收藏列表
+var idList = [];
+var idList2 = [];
+var currentMode = "loopPlay"; //默认循环方式;
+var second_num = 0;
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#HiRadioPlayer').html('<div class="progressBar"><p></p></div>' +
+        '<img src="" alt="" onerror="javascript:this.src=\'../image/icon_32.jpg\'">' +
+        '<div class="playDetail">' +
+        '<h2><i></i> <span>-</span></h2>' +
+        '<p><span class="during"><b class="cur">00:00</b><b class="dur">/00:00</b></span></p>' +
+        '</div>' +
+        '<div class="controlBox">' +
+        '<span class="prevBtn"></span>' +
+        '<span class="playBtn"></span>' +
+        '<span class="nextBtn"></span>' +
+        '<div class="voiceSlider">' +
+        '<p></p>' +
+        '</div>' +
+        '<span class="voice"></span>' +
+        '</div>')
+    $(".rightArrow").css("left", 0);
+    $('#rightArrow').click(function() {
+        if ($('#rightArrow').css("left") > '1px') {
+            $("#HiRadioPlayer").animate({ left: '-1000px' }, 300);
+            $(this).animate({ left: '0' }, 300);
+            $(this).css('background-position', '0px 0');
+            if ($("#backImg").attr("src") != "../image/icon_18_bg.jpg") {
+                $(".backImg").show();
+            }
+        } else {
+            $("#HiRadioPlayer").animate({ left: '0' }, 300);
+            $(this).animate({ left: '906px' }, 300);
+            $(this).css('background-position', '-100px 0');
+            $(".backImg").hide();
+        }
+    });
+    $("#soundBlock").off("click").on("click", function() {
+        var volume = $("#voiceSlider").slider("value");
+        if ("../image/soundBtn.png" == $("#soundBlock").attr("src")) {
+            setVolume_TopPlayer(0);
+            $("#soundBlock").attr("src", "../image/muteBtn.png");
+        } else {
+            setVolume_TopPlayer(volume / 20);
+            $("#soundBlock").attr("src", "../image/soundBtn.png");
+
+        }
+    });
+
+
+    /*声音功能*/
+    $("#voiceSlider").slider({});
+    $("#voiceSlider span").attr("style", "background:#f8525e;border:none;width:7px;height:7px;top:-2px");
+    //初始化声音大小滑块
+    var volume = 0;
+    $("#voiceSlider").slider({
+        min: 0,
+        max: 10,
+        value: 5,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        slide: function(event, ui) {
+            volume = ui.value / 20;
+            if (volume == 0) {
+                $("#soundBlock").attr("src", "../image/muteBtn.png");
+            } else {
+                $("#soundBlock").attr("src", "../image/soundBtn.png");
+            }
+            setVolume_TopPlayer(volume);
+        }
+    });
+
+    var a = $("#voiceSlider div").attr("style");
+    $("#voiceSlider div").attr("style", a + "background:#f8525e");
+
+    /*播放进度条的功能显示*/
+    $("#playSlider").slider({});
+    $("#playSlider").slider({
+        min: 0,
+        max: 1,
+        value: 0,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        slide: function(event, ui) {
+            var maxValue = $('#playSlider').slider('option', 'max');
+            var percent = ui.value / maxValue;
+            if (percent < 1 && ("../image/icon_28.gif" == $("#pBtn").attr("src"))) {
+                $("#pBtn").click();
+            }
+            setSeek_TopPlayer(percent);
+        }
+    });
+    var a = $("#playSlider div").attr("style");
+    $("#playSlider div").attr("style", a + "background:#f8525e");
+
+    $("#playSlider span").attr("style", "background:#f8525e;border:none;width:10px;height:10px;");
+    //$("#playSlider").attr("style","margin-bottom: 0px;bottom: 2px");
+
+    /** 点击收藏按钮， 可不传 **/
+    //$("#collectB").on("click",addFavorite);
+
+    /** 上一个 下一个 **/
+    /*$("div.play img:eq(2)").on("click",nextProgram);
+    $("div.play img:first").on("click",lastProgram);*/
+
+    //移除收藏列表中所有的记录
+    $("div.pop_head a:first").on("click", deleteAllVodOther);
+
+    //获取收藏列表
+    onPlaylistClick();
+
+    $("#listBtn").click(function() {
+        $("#pop").toggle();
+    });
+
+    //对应触发事件,切换播放方式
+    $("div.bf a:eq(1)").bind("click", function() {
+        if ($("div.bf a:eq(1)").children().attr("src") == "../image/singleCycleOn.png") {
+            //currentMode = "singleLoop";
+            currentMode = "randomPlay";
+            $("div.bf a:eq(1)").children().attr({ "src": "../image/randomOn.png", "title": "随机播放" });
+            playMode_TopPlayer.currentMode = playMode_TopPlayer.loopAll;
+            //$("div.bf a:eq(2)").children().attr("src","../image/singleLoopOff.png");
+            //$("div.bf a:eq(3)").children().attr("src","../image/randomOff.png");
+        } else if ($("div.bf a:eq(1)").children().attr("src") == "../image/singleLoopOn.png") {
+            //currentMode = "loopPlay";
+            currentMode = "singleLoop";
+            $("div.bf a:eq(1)").children().attr({ "src": "../image/singleCycleOn.png", "title": "单曲循环" });
+            playMode_TopPlayer.currentMode = playMode_TopPlayer.loopRandom;
+        } else {
+            //currentMode = "randomPlay";
+            currentMode = "loopPlay";
+            playMode_TopPlayer.currentMode = playMode_TopPlayer.loopSingle;
+            $("div.bf a:eq(1)").children().attr({ "src": "../image/singleLoopOn.png", "title": "列表循环" });
+        }
+        /*else{
+        	$("div.bf a:eq(1)").children().attr("src","../image/singleCycleOff.png");
+        	currentMode = "" ;
+        	playMode_TopPlayer.currentMode=playMode_TopPlayer.loopAll;
+        }*/
+    });
+
+    /*$("div.bf a:eq(2)").bind("click",function(){
+    	if($("div.bf a:eq(2)").children().attr("src") != "../image/singleLoopOn.png"){
+    		currentMode = "loopPlay";
+    		playMode_TopPlayer.currentMode=playMode_TopPlayer.loopAll;
+    		$("div.bf a:eq(1)").children().attr("src","../image/singleCycleOff.png");
+    		$("div.bf a:eq(2)").children().attr("src","../image/singleLoopOn.png");
+    		$("div.bf a:eq(3)").children().attr("src","../image/randomOff.png");
+    	}else{
+    		$("div.bf a:eq(2)").children().attr("src","../image/singleLoopOff.png");
+    		currentMode = "" ;
+    		playMode_TopPlayer.currentMode=playMode_TopPlayer.loopSingle;		
+    	}
+    });
+
+    $("div.bf a:eq(3)").bind("click",function(){
+    	if($("div.bf a:eq(3)").children().attr("src") != "../image/randomOn.png"){
+    		currentMode = "randomPlay";
+    		playMode_TopPlayer.currentMode=playMode_TopPlayer.loopRandom;		
+    		$("div.bf a:eq(1)").children().attr("src","../image/singleCycleOff.png");
+    		$("div.bf a:eq(2)").children().attr("src","../image/singleLoopOff.png");
+    		$("div.bf a:eq(3)").children().attr("src","../image/randomOn.png");
+    	}else{
+    		$("div.bf a:eq(3)").children().attr("src","../image/randomOff.png");
+    		currentMode = "" ;
+    		playMode_TopPlayer.currentMode = playMode_TopPlayer.loopAll;
+    	}*/
+});
+
+
+
+
+function deleteAllCollect() {
+    //$.removeCookie(COOKIE_NAME);
+    deleteAllVodOther();
+    //刷新播放列表
+    $("#collectB").attr("style", "background-image:url(../image/icon_22.gif)");
+    onPlaylistClick();
+}
+
+function deleteAllVodOther() {
+    if (confirm("删除全部数据？")) {
+        $.ajax({
+            url: 'http://tacc.radio.cn/userpreference/cancecollectall',
+            type: 'GET',
+            dataType: "JSONP",
+            jsonp: "callback",
+            data: { 'uid': uid, "token": "12345678" },
+            success: function(data) {
+                //console.log(data);
+            },
+            error: function() {
+                console.log("全部删除失败");
+            }
+        })
+    } else {
+        //console.log("取消删除");
+    }
+    $("#programList tr").each(function() {
+        $(this).children("td:nth-child(4)").children().children().attr("src", "../image/icon_15.gif");
+    })
+}
+//列表显示
+function onPlaylistClick() {
+    return;
+    //console.log("刷新播放列表");
+    $(".pop_body table").empty();
+    var flg = $.cookie(COOKIE_NAME);
+    //console.log(flg);
+    if (flg == undefined) { flg = "" };
+    var cookieArray = flg.split("|");
+    /*if(flg != undefined){
+    	
+    	for(var i=0;i<cookieArray.length;i++){
+    		var vod = JSON.parse(cookieArray[i]);
+    		if(vod.anchor == "undefined" || vod.anchor == undefined){vod.anchor = "";}
+    		if(vod.time == "undefined" || vod.time == undefined){vod.time = "";}			
+    		$(".pop_body table").append("<tr><td><a  href=\"javaScript:void(0);\" onclick=\"playLiveRecord('"+vod.url+"','"+vod.name+"','"+vod.img+"')\" style=\"color:#999999\">"+vod.name+"</a></td><td><a href=\"javaScript:void(0);\" onclick=\"playLiveRecord('"+vod.url+"','"+vod.name+"','"+vod.img+"')\" style=\"color:#999999\">"+vod.anchor+"</td></a><td><a href=\"javaScript:void(0);\" onclick=\"playLiveRecord('"+vod.url+"','"+vod.name+"','"+vod.img+"')\" style=\"color:#999999\">"+vod.time+"</td></tr>");
+    	}
+    	setCollectListFocusEvent ();
+    }*/
+    //收藏列表数据获取
+    $.ajax({ //userpreference/collectlist
+        url: 'http://tacc.radio.cn/userpreference/collectlist',
+        type: 'GET',
+        dataType: "JSONP",
+        jsonp: "callback",
+        data: {
+            "uid": uid,
+            "page": "",
+            "size": "",
+            "coll_type": "2",
+            "token": "12345678"
+        },
+        success: function(data) {
+            //console.log(data);//收藏列表的信息
+            if (data.message == "success") {
+                var str = "";
+                var str2 = "";
+                for (var i = 0; i < data.data.length; i++) {
+                    //console.log(data.data);
+                    var vod = data.data[i];
+                    idList.push(vod.id);
+                    //console.log(idList);
+                    if (vod.id == "undefined" || vod.id == undefined) { vod.id = ""; }
+                    if (vod.name == "undefined" || vod.name == undefined) { vod.name = ""; }
+                    if (vod.img == "undefined" || vod.img == undefined) { vod.img = ""; }
+                    if (vod.streams[0]["url"] == "undefined" || vod.streams[0]["url"] == undefined) { vod.streams[0]["url"] = ""; }
+                    if (vod.anchor == "undefined" || vod.anchor == undefined) { vod.anchor = ""; }
+                    if (vod.time == "undefined" || vod.time == undefined) { vod.time = ""; }
+                    str += "<tr>" +
+                        "<td>" +
+                        "<a href=\"javaScript:void(0);\" onclick=\"playLiveRecord('" + vod.streams[0]["url"] + "','" + vod.name + "','" + vod.img + "','" + vod.id + "')\" style=\"color:#999999\">" + vod.name + "</a></td><td><a href=\"javaScript:void(0);\" onclick=\"playLiveRecord('" + vod.url + "','" + vod.name + "','" + vod.img + "','" + vod.id + "')\" style=\"color:#999999\">" + vod.anchor + "</td></a><td><a href=\"javaScript:void(0);\" onclick=\"playLiveRecord('" + vod.url + "','" + vod.name + "','" + vod.img + "','" + vod.id + "')\" style=\"color:#999999\">" + vod.time + "</td></tr>";
+                }
+
+                $.ajax({ //获取直播电台
+                    url: 'http://tacc.radio.cn/userpreference/collectlist',
+                    type: 'GET',
+                    dataType: "JSONP",
+                    jsonp: "callback",
+                    data: {
+                        "uid": uid,
+                        "page": "",
+                        "size": "",
+                        "coll_type": "1",
+                        "token": "12345678"
+                    },
+                    success: function(data) {
+                        //console.log(data);//收藏列表的信息
+                        for (var i = 0; i < data.data.length; i++) {
+                            //console.log(data.data);
+                            var vod2 = data.data[i];
+                            idList2.push(vod2.id);
+                            if (vod2.id == "undefined" || vod2.id == undefined) { vod2.id = ""; }
+                            if (vod2.name == "undefined" || vod2.name == undefined) { vod2.name = ""; }
+                            if (vod2.img == "undefined" || vod2.img == undefined) { vod2.img = ""; }
+                            if (vod2.streams[0]["url"] == "undefined" || vod2.streams[0]["url"] == undefined) { vod2.streams[0]["url"] = ""; }
+                            if (vod2.anchor == "undefined" || vod2.anchor == undefined) { vod2.anchor = ""; }
+                            if (vod2.time == "undefined" || vod2.time == undefined) { vod2.time = ""; }
+                            str2 += "<tr>" +
+                                "<td>" +
+                                "<a href=\"javaScript:void(0);\" onclick=\"playRadio('" + vod2.streams[0]["url"] + "','" + vod2.img + "','" + vod2.name + "','" + vod2.id + "')\" style=\"color:#999999\">" + vod2.name + "</a></td><td><a href=\"javaScript:void(0);\" onclick=\"playRadio('" + vod2.url + "','" + vod2.img + "','" + vod2.name + "','" + vod2.id + "')\" style=\"color:#999999\">" + vod2.anchor + "</td></a><td><a href=\"javaScript:void(0);\" onclick=\"playRadio('" + vod2.url + "','" + vod2.img + "','" + vod2.name + "','" + vod2.id + "')\" style=\"color:#999999\">" + vod2.time + "</td></tr>";
+                            //console.log(str2);
+                        }
+                        $(".pop_body table").html(str + str2);
+                        setCollectListFocusEvent();
+                    },
+                    error: function() {
+                        console.log("收藏列表数据获取失败");
+                    }
+                });
+
+            }
+        },
+        error: function() {
+            //console.log("收藏列表数据获取失败");
+        }
+    });
+
+}
+/** 显示列表内容 End  **/
+//设置页面焦点事件
+function setPageFocusForTableEvent() {
+    $("#programList tr").each(function() {
+        $(this).children("td:eq(1)").bind("click", setPageFocusValue);
+    })
+}
+
+function setPageFocusValue() { focus = pageFocus; }
+//删除页面焦点事件
+function delPageFocusForTableEvent() {
+    $("#programList tr").each(function() {
+        $(this).children("td:eq(1)").unbind("click", setPageFocusValue);
+    })
+}
+
+//设置收藏页焦点事件
+function setCollectListFocusEvent() {
+    $("div.pop_body table").each(function() {
+        $(this).children().off("click").on("click", setCollectListValue);
+    })
+}
+
+function setCollectListValue() { focus = listFocus; }
+//删除收藏页焦点事件
+function delCollectListFocusEvent() {
+    $("div.pop_body table").each(function() {
+        $(this).children().off("click", setCollectListValue);
+    })
+}
+
+/** 设置播放焦点 end**/
+
+
+function createSoundBar_TopPlayer() {
+    if ("../image/soundBtn.png" == $("#soundBlock").attr("src")) {
+        var volume = $("#voiceSlider").slider("value");
+        setVolume_TopPlayer(volume / 20);
+
+    } else {
+        setVolume_TopPlayer(0);
+    }
+}
+
+
+
+
+//暂停样式切换
+function pauseButton() {
+    $("#pBtn").attr("src", "../image/icon_pause.gif");
+    $("#pBtn").attr("class", "pauseBtn");
+}
+
+//播放样式切换
+function playButton() {
+    $("#pBtn").attr("src", "../image/icon_28.gif");
+    $("#pBtn").attr("class", "playBtn");
+}
+
+function handleUrl(url){
+    // http://ytcast.radio.cn:8555/56/
+    // https://ytcast.radio.cn:8556
+    if (/ytcast|ytlive|ytlivenew\.radio\.cn:8555/.test(url)) {
+        url = url.replace(/\.radio\.cn:8555/, '.radio.cn:8556')
+    }
+    if (!/^https:/.test(url)) {
+        url = url.replace(/^http:/, 'https:')
+    }
+    return url
+}
+
+
+function playRadio(url, img, name, id, CId, liveId) { //直播播放
+    isLive = true;
+    $("#programList .after").removeClass("after");
+    $("#HiRadioPlayer .cur").hide().siblings(".dur").text("/" + addZero(new Date().getHours()) + ":" + addZero(new Date().getMinutes()) + ":" + addZero(new Date().getSeconds()));
+    if ($('#rightArrow').css("left") < '1px') { $('#rightArrow').click(); }
+    $("#HiRadioPlayer .playDetail h2").text(name + (isLive ? "(Live)" : ""));
+    $("#HiRadioPlayer>img").attr("src", img);
+    // if (!/^https:/.test(url)) {
+    //     url = url.replace(/^http:/, 'https:')
+    // }
+    url = handleUrl(url)
+    // console.log('playRadio:', url, Date.now())
+    // url = 'https://ngcdn001.cnr.cn/live/zgzs/index.m3u8'
+    // url = 'http://ytlive.radio.cn:8555/131/stream_20639.mp3?type=1&key=05cb99a8ab5f758a0f2e78e506fb1e3d&time=62a1c46b'
+    hiradio.load(url);
+    hiradio.play();
+    id ? $("#Tanalysis").attr("src", "../image/analysis.gif?programId=" + id + "&a=" + Math.random()) : '';
+    CId ? $("#analysis").attr("src", "../image/analysis.gif?channelId=" + CId + "&a=" + Math.random()) : '';
+    liveId ? $("#analysis").attr("src", "../image/analysis.gif?livechannelId=" + liveId + "&a=" + Math.random()) : '';
+    /*$("#analysis").attr("src","../image/analysis.gif?livechannelId="+id+"&a="+Math.random());
+	second_num=0;
+	$(".txt div span").text(name);
+		if(typeof(url)!="undefined" && url.length>0){
+			$("#currentUrl").val(url);
+			$("#currentName").html(name);
+			if(img == undefined || img == ""){
+				$("#currentImg").attr("src","../image/icon_32.jpg");
+				$("#backImg").attr("src","../image/icon_18_bg.jpg");
+				$("#backImg").hide();
+			}else{
+				$("#currentImg").attr("src",img);
+				//$(".backImg").show();
+                $("#backImg").attr("src",img);
+			}
+			startLive(url,name,id);
+		}
+		if($('#rightArrow').css("left")<'1px') {$('#rightArrow').click();}*/
+
+}
+
+function playLiveRecord(url, name, img, id) {
+    if (!url) { return; }
+    if ($('#rightArrow').css("left") < '1px') { $('#rightArrow').click(); }
+
+    for (var i = 0; i <= $("#programList tr").length; i++) {
+        if ($("#programList tr").eq(i).find("td").eq(1).find("a").data("url") == url) {
+            $("#programList .after").removeClass("after");
+            $("#programList tr").eq(i).find("td").eq(1).find("a").addClass("after");
+            break;
+        }
+    }
+    //console.log($("#programList tr").eq(i).find("td").eq(1).find("a"));
+    var txt = $(".after a").text();
+    //console.log(txt);
+    if (txt == "") {
+        $(".radio1 .txt span").html("中国广播");
+    } else {
+        $(".radio1 .txt span").html(txt);
+    }
+    if (typeof(url) != "undefined" && url.length > 0 && url != "") {
+        //$("#currentUrl").val(url);
+        //$("#currentName").text(name);
+        if (img == undefined || img == "") {
+            $("#HiRadioPlayer>img").attr("src", "../image/icon_32.jpg");
+            $("#backImg").attr("src", "../image/icon_18_bg.jpg");
+            $("#backImg").hide();
+        } else {
+            $("#HiRadioPlayer>img").attr("src", img);
+            //$(".backImg").show();
+            $("#backImg").attr("src", img);
+        }
+        $("#HiRadioPlayer .playDetail h2").text(name);
+        $("#HiRadioPlayer>img").attr("src", img);
+        startVod(url, name, id);
+    }
+
+}
+
+//条目播放点击事件
+function startVod(url, name, id, CId) {
+    //$("#HiRadioPlayer>img").attr("src",img);
+    isLive = false;
+    $("#HiRadioPlayer .cur").show().text("00:00").siblings(".dur").text("/00:00");
+    //url=url.indexOf("cnvod")!=-1?url.replace("cnvod","mediums"):url;
+    url = handleUrl(url)
+    hiradio.load(url);
+    hiradio.play();
+    id ? $("#Tanalysis").attr("src", "../image/analysis.gif?programId=" + id + "&a=" + Math.random()) : '';
+    CId ? $("#analysis").attr("src", "../image/analysis.gif?channelId=" + CId + "&a=" + Math.random()) : '';
+}
+
+function readyHandlerVod() {
+    /** 是否显示播放进度，true显示，false不显示 **/
+    canCountDuration(true);
+    switchVodId_TopPlayer("", 879511, 117111052, 0);
+}
+/*秒转时分秒格式*/
+Number.prototype.formatTime = function() {
+    // 计算
+    var h = 0,
+        i = 0,
+        s = parseInt(this);
+    if (s > 60) {
+        i = parseInt(s / 60);
+        s = parseInt(s % 60);
+        if (i > 60) {
+            h = parseInt(i / 60);
+            i = parseInt(i % 60);
+        }
+    }
+    // 补零
+    var zero = function(v) {
+        return (v >> 0) < 10 ? "0" + v : v;
+    };
+    return [zero(h), zero(i), zero(s)].join(":");
+};
+/*直播播放器部分 */
+function startLive(url, name, id, CId) {
+    $("#HiRadioPlayer .playDetail h2").text(name);
+    hiradio.load(url);
+    hiradio.play();
+    id ? $("#Tanalysis").attr("src", "../image/analysis.gif?programId=" + id + "&a=" + Math.random()) : '';
+    CId ? $("#analysis").attr("src", "../image/analysis.gif?channelId=" + CId + "&a=" + Math.random()) : '';
+}
+
+function readyHandler() {
+    /** 是否显示播放进度，true显示，false不显示 **/
+    //canCountDuration( false );
+
+    /** 调用TopPlayer.js中的方法setId，设置播放地址 **/
+    /** setLiveChannelId_TopPlayer( mmsURL, channelId, terminalType )
+     *	mmsURL：播控地址
+     *	channelId：直播频道id
+     *	terminalType：终端类型，写死
+     **/
+    setLiveChannelId_TopPlayer("", 3, "PC");
+    //隐藏原有时间
+    /*$("#cur").after("<div id='cur_me' style='display:inline;'></div>").hide();
+            setInterval(function(){
+                second_num++;
+                $('#cur_me').text(Number(second_num).formatTime());
+            },1000);*/
+}
+
+/** 播放一个音频结束 **/
+function completeHandler(currentPlayMode) {
+    executePlayMode();
+    $('#cur_me').text("00:00");
+}
+
+
+
+function changeProgressBar() {
+    if (isLive == true) return;
+
+    var curtime = format2Second(O("cur").innerHTML);
+    var durtime = format2Second(O("dur").innerHTML);
+    $('#playSlider').slider('option', 'max', durtime);
+    $('#playSlider').slider('option', 'value', curtime);
+
+}
+
+//function createProgressBar_TopPlayer()
+//{
+
+//O( "cur" ).innerHTML = formatSecond( tx / maxT * ( useFlash ? mediaPlayer.getDuration() : mediaPlayer.duration ) );
+
+
+
+
+
+
+
+/*
+
+	var minT = 0;
+	var maxT = proMax = O( "proBar" ).offsetWidth - O( "proBlock" ).offsetWidth-17;
+	$( "#proBlock" ).unbind( "mousedown").bind( "mousedown",function( ed )
+	{
+	    statu = true;
+		if( isLive == true ) return;
+		
+		proDrag = true;
+		
+		$( document ).unbind( "mousemove").bind( "mousemove", function( em )
+		{
+			if( statu == true){
+				var tx = em.pageX*1.08 - $( "#proBlock" ).offset().left - $( "#proBlock" ).width() / 2;
+				if( tx < minT ) tx = minT;
+				if( tx > maxT ) tx = maxT;
+				O( "proBlock" ).style.paddingLeft = tx + "px";
+				O( "date" ).innerHTML=tx;
+				O( "cur" ).innerHTML = formatSecond( tx / maxT * ( useFlash ? mediaPlayer.getDuration() : mediaPlayer.duration ) );
+				var per = tx / maxT;
+				setSeek_TopPlayer( per );
+			}
+		} );
+		
+
+	} );
+
+
+		$( "#TopPlayer" ).unbind( "mouseup").bind( "mouseup", function( eu )
+		{
+   	        statu = false;
+			if( isLive == true ) return;		
+			if(proDrag == true){
+				$( document ).unbind( "mousemove" );
+				$( document ).unbind( "mouseup" );
+				O( "proBlock" ).style.paddingLeft = O( "date" ).innerHTML +"px";
+
+				//var tx = eu.pageX*1.08 - $( "#proBlock" ).offset().left - $( "#proBlock" ).width() / 2;
+				var tx = O( "date" ).innerHTML;
+				if( tx < minT ) tx = minT;
+				if( tx > maxT ) tx = maxT;
+				var per = tx / maxT;
+				setSeek_TopPlayer( per );
+			};
+
+
+			
+			proDrag = false;
+
+		} );
+
+
+	$( "#proBar" ).unbind( "click").bind( "click", 
+	function( event )
+	{
+	    if(!statu){
+			if( isLive ) return;
+
+			if( event.currentTarget == O("proBar"))
+			{
+				var tx = event.pageX*1.08 - $( "#proBlock" ).offset().left - $( "#proBlock" ).width() / 2;
+				if( tx < minT ) tx = minT;
+				if( tx > maxT ) tx = maxT;
+				var per = tx / maxT;
+				proDrag == true;
+
+				O( "date" ).innerHTML=tx;
+				var i=0;
+				do{
+					O( "played" ).style.width =  O( "date" ).innerHTML + "px";
+					O( "proBlock" ).style.paddingLeft =O( "date" ).innerHTML + "px";
+			
+					//setSeek_TopPlayer( per );
+					var firstWidth=parseInt(O( "proBlock" ).style.paddingLeft,10);
+					var secondWidth=parseInt(O( "date" ).innerHTML,10);
+					i++;
+					if(i>10) break;
+				} while (Math.abs(firstWidth-secondWidth) >0.2  );
+
+				
+				console.log("111:"+O( "played" ).style.width);
+
+				console.log("222:"+O( "date" ).innerHTML);
+				console.log("333:"+per);
+				setSeek_TopPlayer( per );
+				setTimeout(function() {    
+							var mcur=parseInt(O( "mdur" ).innerHTML,10) *per;
+							if(Math.abs(mcur-format2Second())>10 ||mcur==0){
+								setSeek_TopPlayer( per );
+							}
+							O( "date" ).innerHTML="";
+				}, 1500);
+
+				proDrag = false;
+			}
+
+		//	$( "#proBar" ).click();
+
+		}
+	} );
+*/
+//}
+
+//判断是否收藏此歌曲
+function isCollect() {
+    /*var currentUrl = $("#currentUrl").val();
+    var flg = $.cookie(COOKIE_NAME);
+    if(flg != undefined){
+    	var cookieArray = flg.split("|");
+    	for(var i=0;i<cookieArray.length;i++){
+    		var vod = JSON.parse(cookieArray[i]);
+    		if(vod.url == currentUrl){
+    			$("#collectB").attr("style","background-image:url(../image/redHeart.gif)");
+    			break;
+    		}else{
+    			$("#collectB").attr("style","background-image:url(../image/icon_22.gif)");
+    		}
+    	}
+    }*/
+}
+
+
+/*******************计时器部分*************************/
+///*
+// * 视频实时播放回调函数（处理计时显示）
+// * time当前播放头位置(秒)，id，播放器当前id。
+// */
+//function onPlayTime () {
+//	player.on("timeupdate",function(){
+//		//当前播放时间/秒
+//		var time = Math.floor(player.playTime ());
+//		//总时长
+//		var time_distance = Math.floor(player.duration());
+//		//动态显示滑块和时间
+//	    showSlider(time,time_distance);
+//	   	var stime = totalTime(time) +"/"+totalTime(time_distance);
+//  	$("#cur").html(stime);
+//	
+//		//视频缓冲开始回调
+//		player.on("bufferBegin",function(){
+//			$("#cur").html("Loading...");
+//		});
+//		
+//		if(time == time_distance){
+//			time =0;
+//			time_distance =0;
+//			showSlider(time,time_distance);
+//			$("#cur").html("00:00:00");
+//			playButton();
+//			if(pageList !=""){
+//				executePlayMode();
+//			}
+//		}
+//	});
+//}
+
+/*实时显示时间 HH:MM:SS*/
+function totalTime(time_distance) {
+    /*先计算小时*/
+    var hour = Math.floor(time_distance / 3600);
+    time_distance -= hour * 3600;
+
+    var min = Math.floor(time_distance / 60);
+    var sec = Math.floor(time_distance - (min * 60));
+
+    if (hour < 10) { hour = "0" + hour; }
+    if (min < 10) { min = "0" + min; }
+    if (sec < 10) { sec = "0" + sec; }
+
+    return hour + ":" + min + ":" + sec;
+}
+
+
+//显示进度条
+function showSlider(id, time_distance) {
+
+}
+
+/*播放进度条的功能显示 end*/
+
+
+
+/*直播播放器部分 */
+
+/***** 收藏功能  **********/
+
+
+/**收藏按钮 **/
+function addFavorite() {
+    var durtime = format2Second(O("dur").innerHTML);
+    if (durtime > 0 || isLive) {
+        redImg();
+    }
+    addFavoriteOther();
+}
+
+//显示收藏图标功能(判断是否能收藏)
+function redImg() {
+    if ("background-image:url(../image/icon_22.gif)" == $("#collectB").attr("style")) {
+        $("#collectB").attr("style", "background-image:url(../image/redHeart.gif)");
+        addVod();
+    } else {
+        $("#collectB").attr("style", "background-image:url(../image/icon_22.gif)");
+        deleteVod($("#currentName").html());
+    }
+}
+
+var COOKIE_NAME = "vodlist";
+//添加新歌曲（显示已收藏）
+function addVod() {
+    //var arr = $("#headName ul li:first").text().split("\：");
+    var currentpId = $("#currentpId").val();
+    var cName = $("#cName").val();
+    //console.log(arr);
+    /*var flg = $.cookie(COOKIE_NAME);
+    var all = O( "dur" ).innerHTML;
+    var vod = "{\"name\":\""+$("#currentName").html()+"\",\"img\":\""+$("#currentImg").attr("src")+"\",\"url\":\""+$("#currentUrl").val()+"\",\"anchor\":\""+arr[1]+"\",\"time\":\""+all+"\"}";
+    if(flg == undefined ){
+    	$.cookie(COOKIE_NAME,vod,{expires: 365});
+    }else{
+    	$.cookie(COOKIE_NAME , flg+"|"+vod,{expires: 365});
+    }*/
+    //刷新播放列表
+    onPlaylistClick();
+}
+
+
+//取消收藏
+function deleteVod(name) {
+    /*	//移除cookie
+    	var flg = $.cookie(COOKIE_NAME);
+    	if(flg == undefined ){
+    		return;
+    	}
+    			
+    	var cookieArray = flg.split("|");
+    	for(var i=0;i<cookieArray.length;i++){
+    		var vod = JSON.parse(cookieArray[i]);
+    		if(vod.name == name){
+    			cookieArray.splice(i,1);
+    		}
+    	}
+    	
+    	//循环封装
+    	var a ="";
+    	for(var i = 0;i<cookieArray.length;i++){
+    		var str = cookieArray[i];		
+    		if(a == ""){
+    			a = str;
+    		}else{
+    			a = a+"|"+str;
+    		}
+    	}
+    	$.cookie(COOKIE_NAME, a,{expires: 365});
+    	if(cookieArray.length <= 0){
+    		$.removeCookie(COOKIE_NAME);
+    	}*/
+    //刷新播放列表
+    onPlaylistClick();
+}
+
+
+/* 收藏功能 end */
+
+
+/* 前进 和 后退 */
+$("#HiRadioPlayer").on("click", ".prevBtn", lastProgram);
+$("#HiRadioPlayer").on("click", ".nextBtn", nextProgram);
+/** 下一个 **/
+function nextProgram() {
+    if (isLive) { return; }
+    var playUrl = hiradio._playlist[0];
+    var name = $("#HiRadioPlayer h2").html();
+    var subscript = Math.floor(0);
+    for (var i = 0; i < pageList.length; i++) {
+        var vod = pageList[i];
+        if (playUrl == handleUrl(vod.url) && name == vod.name) {
+            subscript = i + 1;
+            break;
+        }
+    }
+    subscript = subscript >= pageList.length ? 0 : subscript;
+    try {
+        var vod = pageList[subscript];
+        playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+    } catch (error) {
+        //console.log("不存在的播放记录");
+    }
+}
+
+/** 上一个 **/
+function lastProgram() {
+    if (isLive) { return; }
+    var playUrl = hiradio._playlist[0];
+    var name = $("#HiRadioPlayer h2").html();
+
+    var subscript = parseInt(0);
+    for (var i = 0; i < pageList.length; i++) {
+        var vod = pageList[i];
+        if (playUrl == handleUrl(vod.url) && name == vod.name) {
+            subscript = i - 1;
+            break;
+        }
+    }
+    subscript = subscript < 0 ? pageList.length - 1 : subscript;
+    try {
+        var vod = pageList[subscript];
+        playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+    } catch (error) {
+        //console.log("不存在的播放记录");
+    }
+
+}
+/* 前进和后退 end */
+
+window.onload = function() {
+    if ($(window).width() < 768) {
+        var num = $(window).width() / 980;
+        $("html").css({ "position": "relative", "height": "100%" });
+        $("body").css({ "transform": "scale(" + num + ")", "left": -(980 - $(window).width()) / 2 + "px", "top": -($("body").height() * (1 - num) / 2) + "px", "position": "absolute" });
+    }
+
+    var urla = document.location.href;
+    var txt = "";
+    var pic = $(".playNum img").attr("src");
+    $("#programList").on("click", ".bds_more", function() {
+        //alert("000112");
+        var val = $(this).parents("tr").find("td").eq(1).find("a").text();
+        txt = val;
+        urla = $(this).parents("tr").find("td").eq(1).find("a").data("url");
+        //console.log(urla);
+    })
+    $(".collect").on("click", "a", function() {
+        txt = $("#description p").text();
+        //urla=$("#currentUrl").val();
+        //txt=$("#currentName").html();
+        //pic=$("#currentImg").attr("src");
+        //bdPic=$(".playNum img").attr("src");
+        //bdUrl=$(this).parents("tr").find("td").eq(1).find("a").data("url");
+    })
+    $(".fb").on("click", ".bds_more", function() {
+        //alert("collect");
+        urla = $("#currentUrl").val();
+        txt = $("#currentName").html();
+        pic = $("#currentImg").attr("src");
+        //alert(pic);
+        //bdPic=$(".playNum img").attr("src");
+        //bdUrl=$(this).parents("tr").find("td").eq(1).find("a").data("url");
+    })
+    /**分享cmd指分享到的地方**/
+    function SetShareUrl(cmd, config) {
+        //alert("i will share");
+        //console.log(urla);
+        //var urla = $("#currentUrl").val();
+        config.bdUrl = urla;
+        config.bdText = txt;
+        config.bdPic = pic;
+        //      config.bdDesc=  $("#currentName").html();
+        //console.log(config);
+        return config;
+    }
+
+    window._bd_share_config = {
+        "common": {
+            onBeforeClick: SetShareUrl,
+            "bdSnsKey": {}, //appkey一般不用不好申请
+            "bdText": "",
+            "bdPic": "",
+            "bdUrl": "",
+            "bdStyle": "0",
+            "bdSize": "24"
+        },
+        share: {}
+    };
+    //消除“更多...”按钮
+    $(".bds_more").mousemove(function() {
+        //当滑过分享按钮时不出现分享框，
+        $("div.bdshare_popup_box").attr("style", "visibility:hidden");
+        //alert($(this));
+    })
+
+
+    // with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+
+}
+
+
+//扩展 字符串处理
+String.prototype.trim = function(char, type) {
+    if (char) {
+        if (type == 'left') {
+            return this.replace(new RegExp('^\\' + char + '+', 'g'), '');
+        } else if (type == 'right') {
+            return this.replace(new RegExp('\\' + char + '+$', 'g'), '');
+        }
+        return this.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
+    }
+    return this.replace(/^\s+|\s+$/g, '');
+};
+
+/* 播放模式设置 */
+
+/* 获取当前页面中可以播放的地址并组装成列表 */
+function getPlayList() {
+    var list = new Array();
+    $("#programList tr").each(function() {
+        var splitMessage = "";
+        try {
+            splitMessage = $(this).children("td:eq(1)").children().attr("onclick").split("\'");
+        } catch (error) {
+            //console.log("tr 的子元素不存在");
+        }
+        if (splitMessage != "") {
+            var playMessage = '{"url":"' + splitMessage[1] + '","name":"' + splitMessage[3] + '"}';
+            list.push(JSON.parse(playMessage));
+        }
+    });
+    setPageFocusForTableEvent(); //循环当前table 中将事件注册事件属性
+    return list;
+}
+
+
+
+//判断是否被触发
+function executePlayMode() {
+    //默认设置为循环模式
+    if ("" == currentMode) {
+        alert("无定义");
+        return;
+    }
+    if ("loopPlay" == currentMode) {
+        loopPlayback();
+    } else if ("singleLoop" == currentMode) {
+        singleLoop();
+    } else if ("randomPlay" == currentMode) {
+        randomPlay();
+    }
+}
+
+//单曲循环
+function singleLoop() {
+    var playUrl = $("#currentUrl").val();
+    var playId = $("#currentpId").val();
+    var name = $("#currentName").html();
+    var img = $("#currentImg").attr("src");
+    playLiveRecord(playUrl, name, img, playId);
+}
+
+//循环列表播放
+function loopPlayback() {
+    var name = $("#currentName").html();
+    var playUrl = $("#currentUrl").val();
+    var subscript = parseInt(0);
+    //console.log(focus);
+    //console.log(pageFocus);
+    if (focus == pageFocus) {
+        //执行当前页面的列表数据
+        for (var i = 0; i < pageList.length; i++) {
+            var vod = pageList[i];
+            if (playUrl == vod.url && name == vod.name) {
+                subscript = i + 1;
+                break;
+            }
+        }
+        try {
+            if (subscript < pageList.length) {
+                var vod = pageList[subscript];
+                playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+            } else { //播放到了尾部，执行此.
+                playLiveRecord(pageList[0].url, pageList[0].name, pageList[0].img, pageList[0].id);
+            }
+        } catch (error) {
+            console.log("不存在的播放记录");
+        }
+    } else if (focus == listFocus) {
+        var flg = $.cookie(COOKIE_NAME);
+        if (flg != undefined) {
+            var cookieArray = flg.split("|");
+            for (var i = 0; i < cookieArray.length; i++) {
+                var vod = JSON.parse(cookieArray[i]);
+                if (playUrl == vod.url && name == vod.name) {
+                    subscript = i + 1;
+                    break;
+                }
+            }
+            try {
+                if (subscript < cookieArray.length) {
+                    var vod = JSON.parse(cookieArray[subscript]);
+                    playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+                } else {
+                    var vod = JSON.parse(cookieArray[0]);
+                    playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+                }
+            } catch (error) {
+                console.log("不存在的播放记录");
+            }
+        }
+
+    }
+}
+
+//随机播放
+function randomPlay() {
+    if (focus == pageFocus) {
+        var subscript = Math.floor(Math.random() * pageList.length);
+        var vod = pageList[subscript];
+    } else if (focus == listFocus) {
+        var flg = $.cookie(COOKIE_NAME);
+        var cookieArray = flg.split("|");
+        var subscript = Math.floor(Math.random() * cookieArray.length);
+        var vod = cookieArray[subscript];
+    }
+    playLiveRecord(vod.url, vod.name, vod.img, vod.id);
+}
+/* 播放模式设置 end */
+
+function addZero(num) {
+    if (num < 10) {
+        return "0" + num;
+    } else {
+        return num;
+    }
+}

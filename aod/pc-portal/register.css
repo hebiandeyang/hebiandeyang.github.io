@@ -1,0 +1,321 @@
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: #000;
+  opacity: 0.3;
+  z-index: 999;
+  display: none;
+}
+input {
+  border: none;
+  outline: none;
+}
+.footer {
+  background: #fff;
+}
+.green {
+  color: #f8525e;
+}
+.user_box,
+.user_box2,
+.user_box3 {
+  width: 853px;
+  min-height:600px;
+  position: absolute;
+  margin-top: 44px;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
+  font-family: "黑体";
+  border: 1px solid #e5e5e5;
+  z-index: 1000;
+  display: none;
+}
+.user_box h2,
+.user_box2 h2,
+.user_box3 h2 {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 186px;
+  padding-top: 12px;
+  height: 53px;
+  text-align: center;
+  font-size: 20px;
+  color: #f8525e;
+}
+.user_box h2 a,
+.user_box2 h2 a,
+.user_box3 h2 a {
+  font-size: 20px;
+  padding: 12px 20px;
+  margin: 0 55px;
+  float: left;
+  color: #333;
+}
+.user_box h2 a.check,
+.user_box2 h2 a.check,
+.user_box3 h2 a.check {
+  color: #f8525e;
+  border-bottom: 3px solid #f8525e;
+}
+.user_box .message,
+.user_box2 .message,
+.user_box3 .message {
+  padding-left: 220px;
+  padding-bottom: 15px;
+  display: none;
+}
+.user_box .message form,
+.user_box2 .message form,
+.user_box3 .message form {
+  padding-top: 30px;
+}
+.user_box .message form > p,
+.user_box2 .message form > p,
+.user_box3 .message form > p {
+  width: 352px;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #9d9d9d;
+}
+.user_box .message form > p span,
+.user_box2 .message form > p span,
+.user_box3 .message form > p span {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #9d9d9d;
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin: 0 5px;
+  line-height: 12px;
+  font-size: 16px;
+}
+.user_box .message form > p a,
+.user_box2 .message form > p a,
+.user_box3 .message form > p a {
+  float: right;
+  color: #f8525e;
+}
+.user_box .message form > div,
+.user_box2 .message form > div,
+.user_box3 .message form > div {
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  height: 42px;
+  display: inline-block;
+  margin-top: 20px;
+  width: 352px;
+  position: relative;
+}
+.user_box .message form > div .changeImg,
+.user_box2 .message form > div .changeImg,
+.user_box3 .message form > div .changeImg {
+  color: #9d9d9d;
+}
+.user_box .message form > div label,
+.user_box2 .message form > div label,
+.user_box3 .message form > div label {
+  width: 35px;
+  text-align: center;
+  float: left;
+  padding-top: 12px;
+}
+.user_box .message form > div input,
+.user_box2 .message form > div input,
+.user_box3 .message form > div input {
+  height: 40px;
+  width: 313px;
+  font-family: "黑体";
+  font-size: 14px;
+  float: left;
+}
+.user_box .message form > div > span,
+.user_box2 .message form > div > span,
+.user_box3 .message form > div > span,
+.user_box .message form > div > a,
+.user_box2 .message form > div > a,
+.user_box3 .message form > div > a {
+  position: absolute;
+  left: 100%;
+  width: 150px;
+  line-height: 40px;
+  padding-left: 8px;
+  color: #ff0103;
+  font-size: 14px;
+}
+.user_box .message form > div > span,
+.user_box2 .message form > div > span,
+.user_box3 .message form > div > span {
+  display: none;
+}
+.user_box .message form > div > .send,
+.user_box2 .message form > div > .send,
+.user_box3 .message form > div > .send {
+  position: absolute;
+  left: 100%;
+  line-height: 40px;
+  width: 120px;
+  padding: 0;
+  margin-left: 8px;
+  text-align: center;
+  background: #ededed;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #d4d4d4;
+}
+.user_box .message form > div .w_code,
+.user_box2 .message form > div .w_code,
+.user_box3 .message form > div .w_code {
+  float: left;
+  width: 206px;
+  margin: 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+}
+.user_box .message form > div .w_code input,
+.user_box2 .message form > div .w_code input,
+.user_box3 .message form > div .w_code input {
+  width: 170px;
+  padding-left: 12px;
+}
+.user_box .message form > div:nth-of-type(5),
+.user_box2 .message form > div:nth-of-type(5),
+.user_box3 .message form > div:nth-of-type(5) {
+  border: none;
+}
+.user_box .message form > div:nth-of-type(5) a,
+.user_box2 .message form > div:nth-of-type(5) a,
+.user_box3 .message form > div:nth-of-type(5) a {
+  position: absolute;
+  left: 100%;
+  width: 150px;
+  line-height: 40px;
+  padding-left: 8px;
+  color: #9d9d9d;
+  font-size: 14px;
+}
+.user_box .message form > div:last-of-type,
+.user_box2 .message form > div:last-of-type,
+.user_box3 .message form > div:last-of-type {
+  border: none;
+  height: 40px;
+  margin-top: 35px;
+  position:relative;
+  text-align:center;
+}
+.user_box .message form > div:last-of-type .sbm,
+.user_box2 .message form > div:last-of-type .sbm,
+.user_box3 .message form > div:last-of-type .sbm,
+.user_box .message form > div:last-of-type .next,
+.user_box2 .message form > div:last-of-type .next,
+.user_box3 .message form > div:last-of-type .next,
+.user_box3 .message form > div:last-of-type .deal,
+.user_box .message form > div > a.w_login,
+.user_box2 .message form > div > a.w_login,
+.user_box3 .message form > div > a.w_login {
+  width: 100%;
+  position:absolute;
+  left:0;
+  right:0;
+  margin:auto;
+  padding:0;
+  text-align:center;
+  background: #f8525e;
+  border-radius: 5px;
+  color: #fff;
+}
+.user_box .message form > div:last-of-type span,
+.user_box2 .message form > div:last-of-type span,
+.user_box3 .message form > div:last-of-type span {
+  color: #9c9c9c;
+  display: block;
+}
+.user_box .message form > div:last-of-type span a,
+.user_box2 .message form > div:last-of-type span a,
+.user_box3 .message form > div:last-of-type span a {
+  color: #f8525e;
+}
+.user_box .message .img,
+.user_box2 .message .img,
+.user_box3 .message .img {
+  width: 135px;
+  height: 42px;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  float: right;
+}
+.user_box .log_way,
+.user_box2 .log_way,
+.user_box3 .log_way {
+  width: 354px;
+  height: 55px;
+  position: relative;
+  margin-top: 35px;
+  text-align: center;
+  display:none;
+}
+.user_box .log_way hr,
+.user_box2 .log_way hr,
+.user_box3 .log_way hr {
+  width: 100%;
+}
+.user_box .log_way span,
+.user_box2 .log_way span,
+.user_box3 .log_way span {
+  position: absolute;
+  background: #fff;
+  top: -12px;
+  left: 35%;
+  padding: 3px;
+  font-size: 14px;
+  color: #818181;
+}
+.user_box .log_way > div,
+.user_box2 .log_way > div,
+.user_box3 .log_way > div {
+  width: 128px;
+  padding: 15px 0;
+  display: inline-block;
+}
+.user_box .log_way > div a,
+.user_box2 .log_way > div a,
+.user_box3 .log_way > div a {
+  float: left;
+}
+.user_box .log_way > div img,
+.user_box2 .log_way > div img,
+.user_box3 .log_way > div img {
+  width: 30px;
+  height: 30px;
+  margin: 0 17px;
+}
+.user_box .agree,
+.user_box2 .agree,
+.user_box3 .agree {
+  width: 355px;
+  color: #9d9d9d;
+  padding-top: 30px;
+  padding-bottom: 40px;
+  line-height: 18px;
+  text-align: center;
+}
+.user_box .agree span,
+.user_box2 .agree span,
+.user_box3 .agree span {
+  width: 11px;
+  height: 11px;
+  border: 1px solid #9d9d9d;
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin: 0 5px;
+  line-height: 12px;
+  font-size: 16px;
+}
+.user_box2 .message {
+  display: block;
+}
+.find2 {
+  display: none;
+}

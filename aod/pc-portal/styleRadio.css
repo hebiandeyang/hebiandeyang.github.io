@@ -1,0 +1,264 @@
+﻿.header {width: 100%;background: #ffffff;}
+.header .logo {float: left;width:190px;background:#fff;}
+.header .nav {float: left; margin-left:28px;}
+.header .nav ul li {float: left;line-height: 66px;font-size: 18px;font-family: "黑体";color: #343434;height: 66px}
+.header .nav ul li a {padding: 0 16px;color: #343434;display:inline-table}
+.header .nav ul li:hover{background:none;border-bottom:3px solid #f8525e;}
+.header .nav ul li:hover a{color: #f8525e;}
+.header .nav .selected{background:none;border-bottom:3px solid #f8525e;}
+.header .nav .selected a{color: #f8525e;}
+.header .nav .yun{height:60px;padding-top:6px;}
+.header .nav .yun span{font-weight:bold;font-size:18px;}
+.header .search {position: relative;float: right;background: url("../image/icon_01.gif");width: 165px;height: 34px;margin: 16px 20px 0 0 }
+.header .search input {position: absolute;border:none;line-height: 24px;margin: 4px 0 0 12px;outline:none;;width: 123px;height: 24px}
+.header .search span {float: right;margin: 2px 5px 0 0}
+.header .login {float:right;line-height: 66px;background:#fff;font-size: 14px;font-family: "黑体"}
+
+
+.footer {width: 100%;}
+.footer .nav {width: 100%;background: #ffffff;line-height: 28px;padding: 12px 0 18px 0}
+.footer .nav h3 {font-size: 14px}
+.footer .nav p a {color: #999999}
+.footer .nav .block1 {width: 210px;float: left}
+.footer .nav .block2 {width: 220px;float: left}
+.footer .nav .block3 {width: 270px;float: left}
+.footer .nav .block4 {width: 280px;float: left}
+
+.footer .explain {border-bottom: 1px solid #e5e5e5;line-height: 24px;color: #999999;padding-bottom: 25px}
+.footer .explain h3 {font-weight: bold;padding: 30px 0 5px 0}
+
+.footer .information {text-align: center;line-height: 26px;color: #999999;margin: 25px 0 10px 0}
+.footer .information a {color: #999999}
+
+
+
+.banner {border: 1px solid #e5e5e5;background: #ffffff;margin: 15px 0}
+.banner ul {width: 962px;margin: 0 auto;padding: 16px 0}
+.banner ul li {width: 33.3%;float: left; text-align: center}
+
+.column {border: 1px solid #e5e5e5;background: #ffffff;margin: 15px 0 40px 0}
+.column .col_left {float: left;width:660px;padding-bottom: 30px}
+.column .col_left h2 {border-bottom: 1px solid #e5e5e5;line-height: 38px;text-align: right;margin: 20px 0 0 13px }
+.column .col_left h2 span {width: 140px;float: left;margin-top:5px;text-align:left;;height: 24px;line-height: 24px;font-size: 18px;font-family:"黑体"}
+.column .col_left h2 span i {background: #66cc9c;width: 4px;display: table-caption;height: 20px;float: left;margin: 4px 9px 0 0}
+.column .col_left .nav li {float: left;padding: 0 6px}
+.column .col_left .nav li {color: #9a9a9a}
+.column .col_left .list1 {width: 660px;margin: 0 auto;}
+.column .col_left .list1 li {float: left;width: 25%;text-align: center;margin-top: 20px}
+.column .col_left .list1 img {width: 146px;height: 146px;border: 1px solid #999999}
+.column .col_left .list1 h3 {text-align: left;padding: 10px 0 8px 8px;font-size: 14px}
+.column .col_left .list1 p {text-align: left;padding: 0 10px 0 8px;line-height: 18px}
+.column .col_left .list1 a p {color: #999999}
+
+
+.column .col_left .list1 .txtcenter {text-align: center; }
+.column .col_left .pic_r img {width: 133px;height: 133px;padding:6px;border-radius:50%;border: 1px solid #e5e5e5}
+
+.column .col_right {float: left;width:284px;margin-left: 22px}
+.column .col_right h2 {border-bottom: 1px solid #e5e5e5;line-height: 38px;;margin: 20px 0 0 0;font-size: 18px;font-family:"黑体";+margin: 19px 0 0 0;}
+.column .col_right ul li {line-height: 46px;border-bottom: 1px dotted #cccccc}
+.column .col_right ul li i {float: left;font-style:normal;padding-top: 40px;font-weight: bold;font-family:"黑体";line-height: 18px}
+.column .col_right ul li img {float: left;padding: 18px 10px}
+.column .col_right ul li h3 {float: left;font-size: 14px;line-height: 24px;width: 190px;padding-top: 24px}
+.column .col_right ul li h3 span {float: left;width: 100%;font-size: 12px}
+.column .col_right ul li h4 {font-size: 14px}
+.column .col_right ul li h4 span {font-size: 14px;;font-weight: bold;font-family:"黑体";float: left;padding-right: 10px}
+
+/*分类*/
+.sort {border-top: 1px solid #e5e5e5;background: #ffffff;margin: 15px 0}
+.sort .sort_left {float: left;width: 158px;border: 1px solid #eeeeee;margin: 24px 0 30px 13px}
+.sort .sort_left ul li {border-bottom: 1px dotted #dddddd;line-height: 24px;padding: 20px 0;;height: 24px}
+.sort .sort_left ul li span {;line-height: 24px;float: left;font-size: 14px;padding-left: 20px}
+.sort .sort_left .after {;border-left: 4px solid #f8525e;font-weight: bold;color: #f8525e;padding-left:15px}
+.sort .sort_left .after a {color: #f8525e}
+
+.sort .sort_left ul li:hover span {border-left: 4px solid #f8525e;font-weight: bold;color: #f8525e;padding-left:15px}
+.sort .sort_left ul li:hover span a {color: #f8525e}
+
+.sort .sort_right {float: left;width: 805px;padding-bottom: 30px}
+.sort .sort_right h2 {font-size: 26px;font-family:"黑体";padding: 24px 0 0 20px}
+.sort .sort_right ul li {float: left;width: 162px;margin:25px 19px 0 19px}
+.sort .sort_right ul li h3 {font-size: 14px;line-height: 32px}
+.sort .sort_right ul li a p {color: #999999;line-height: 18px}
+
+.sort .sort_right #scroll ul li {display:block; width: 52px;margin: 0 5px;}
+.sort .sort_right .scrollClassify { margin:0 20px;}
+
+
+.radio {border: 1px solid #e5e5e5;background: #ffffff;margin: 15px 0}
+.radio .block1  h2 {border-bottom: 1px dotted #e5e5e5;font-size: 14px;line-height: 68px;width: 950px;margin: 0 auto;font-weight: bold;color: #f8525e}
+.radio .block1  h2 span {width: 4px;background: #f8525e;float: left;display: table-caption;height: 24px;margin: 22px 8px 0 0 }
+
+
+.radio .block2_left {float: left;width: 158px;border: 1px solid #eeeeee;margin: 24px 0 30px 13px}
+.radio .block2_left h2 {border-bottom: 1px dotted #eeeeee;line-height: 24px;padding: 20px 0;;height: 24px}
+.radio .block2 h2 span {display: table-caption;line-height: 24px;float: left;font-size: 14px;padding-left: 110px;font-weight: bold;margin: 22px 8px 0px 120px}
+.radio .block2_left h2 span i {float: left;height: 24;width: 5px;background: #f8525e}
+.radio .block2_left ul li {border-bottom: 1px dotted #eeeeee;line-height: 24px;padding: 20px 0;;height: 24px;font-size: 14px;padding-left: 20px;position: relative}
+.radio .block2_left ul li span {width: 8px;height:14px;line-height: 24px;float: right;background: url("../image/icon_12.gif");position: absolute;right: -8px}
+
+
+.radio .block2_right {float: right;width: 760px;margin: 0px 10px 0 0}
+.radio .block2 h2 {line-height: 20px;font-size: 16px;font-weight: bold;margin-top: 20px;text-align: center;}
+
+.radio .block2 .cut1 ul li  {float: left;padding-right: 12px;font-size: 14px;font-weight: bold;line-height: 30px;margin-top: 15px;}
+.radio .block2 .cut1 ul li select {width: 160px;line-height: 34px;height: 34px;font-size: 14px;color: #555555;border: 1px solid #e0e0e0;}
+.radio .block2 .cut1 ul li input {line-height:30px;height: 30px;font-size: 14px;border: 1px solid #e0e0e0;padding-left: 10px}
+.radio .block2 .cut1 ul li  {float: left;padding-right: 12px}
+.radio .block2 .cut1 ul li a {background: #f8525e;color: #ffffff;padding: 10px 22px;font-weight: normal}
+
+.radio .block2_right .cut2 {float: left;width: 540px}
+.radio .block2_right .cut2 table td {border-bottom: 1px dotted #cccccc;line-height: 50px;}
+
+.radio .block2_right .cut3 {float: right;width: 140px;margin: 0px 28px 0 0;background: #f2f2f2;border-radius: 5px;text-align: right;position: relative;}
+.radio .block2_right .cut3 ul {;width: 78px;text-align: right;position: absolute;top:33px;left: 15px}
+.radio .block2_right .cut3 ul li {;width: 78px;text-align: right;line-height: 18px;padding-top: 15px}
+.radio .block2_right .cut3 ul li span {;width: 78px;text-align: right;float: left;font-size: 12px;color: #000000;font-weight: bold}
+.radio .block2_right .cut3 h3 {;width: 78px;height: 30px;text-align: center;line-height: 28px;background: #f8525e;font-size: 14px;margin-top: 15px}
+.radio .block2_right .cut3 h3 p {color: #ffffff}
+.radio .block2_right .cut3 h3 p button{width:100%;height:28px;color: #ffffff;background:none;border:none;}
+.radio .block2_right .cut3 .after {color: #f8525e}
+.radio .block2_right .cut3 .after a {color: #f8525e}
+.radio .block2_right .cut3 ul li:hover span {;font-weight: bold;color: #f8525e;}
+
+.details {border: 1px solid #e5e5e5;background: #ffffff;margin: 15px 0;overflow:hidden;}
+.details .block1 {float: left;width: 690px;margin-left: 15px;margin-bottom: 40px}
+.details .block1 .nav {padding: 20px 10px}
+.details .block1 .col_1 {float: left;width: 179px}
+.details .block1 .col_1 img {border: 1px solid #e5e5e5}
+
+.details .block1 .col_2 {float: left;width: 470px;margin-left: 40px}
+.details .block1 .col_2 h3 {font-size: 16px;font-weight: bold;line-height: 26px}
+.details .block1 .col_2 ul {margin-top: 10px}
+.details .block1 .col_2 ul li {float: left;width: 50%;line-height: 24px;;}
+.details .block1 .col_2 .play {text-align: right;width: 100%;line-height: 40px}
+.details .block1 .col_2 .play span {float: left;}
+.details .block1 .col_2 .page a {border: 1px solid #e5e5e5;padding: 4px 15px;margin: 3px;border-radius: 5px;}
+.details .block1 p {line-height: 20px;color: #555;margin: 20px 0 10px 0;}
+.details .block1  h2 {border-bottom: 2px solid #f8525e;font-size: 18px;font-family:"黑体";line-height: 42px;margin: 0 auto}
+.details .block1  h2 span {width: 4px;background: #f8525e;float: left;display: table-caption;height: 20px;margin: 10px 8px 0 0 }
+
+.details .block1 table td {line-height: 20px;border-bottom: 1px solid #efefef;padding:2px 0;min-height:40px;}
+
+.details .block2 {float: right;width: 220px;margin-right: 17px;}
+.details .block2 h2,.details .block2 h6{border-bottom: 1px solid #e5e5e5;line-height: 30px;font-size: 14px;margin-top: 15px}
+.details .block2 ul  {margin:12px 0}
+.details .block2 ul li {margin:0 0 20px 0}
+.details .block2 ul li img {border: 1px solid #e5e5e5;float: left}
+.details .block2 ul li h3 {float: right;width: 125px}
+.details .block2 ul li p {float: right;width: 125px;line-height: 18px;margin-top: 15px}
+.details .block2 ul li a p {color: #999999}
+
+.txtcenter img{margin:11px 0;}
+
+
+#livebox {display:block; overflow:hidden;width:908px;margin: 0 auto}
+
+.area_name { width:60px;line-height:26px; float:left; font-size:16px; font-weight: bold;  text-align:center;;padding-top: 27px}
+#scroll { width:842px;position:relative; float:left;margin-top: 27px }
+
+#scroll #btn1 {cursor:pointer; position:absolute; left:0px; top:3px; }
+#scroll #btn2 {cursor:pointer; position:absolute; right:0px; top:3px; }
+
+#scroll #viewer { width:828px;  font-size:12px; position:absolute; left:8px; top:0px; overflow:hidden;}
+
+.sort .sort_right .scrollClassify #scroll #viewer { width:780px;}
+#scroll  { height:26px; overflow:hidden;}
+
+#scroll #btnC1 {cursor:pointer; position:absolute; left:0px; top:6px; }
+#scroll #btnC2 {cursor:pointer; position:absolute; right:68px; top:6px;}
+#scroll #classif { width:828px;  font-size:12px; position:absolute; left:8px; top:0px; overflow:hidden;}
+#scroll #liveClass .box { float:left;background:#FFF; overflow:hidden; display:inline-block;  }
+#scroll #liveClass .box .select{ background: #f8525e;padding:6px;margin: 0 5px;color: #ffffff;border-radius: 3px }
+
+#scroll #livechannel .box { float:left;background:#FFF; overflow:hidden; display:inline-block;  }
+#scroll #livechannel .box .select{ background: #f8525e;padding:4px 6px;margin: 0 5px;color: #ffffff;border-radius: 3px }
+
+#scroll .box a { display:block; padding:4px 6px;margin: 0 5px;margin-bottom:5px;}
+#scroll .box a:hover {background: #f8525e;padding:4px 6px;margin: 0 5px;color: #ffffff;border-radius: 3px}
+
+#scrolllx { width:842px; position:relative; float:left;;margin-top: 27px }
+
+#scrolllx #btn3 {cursor:pointer; position:absolute; left:0px; top:3px;display:none;}
+#scrolllx #btn4 {cursor:pointer; position:absolute; right:0px; top:3px;display:none;}
+
+
+#scrolllx #viewerlx { width:828px;  font-size:12px; position:absolute; left:8px; top:0px; overflow:hidden;}
+#scrolllx #livetype { height:26px; overflow:hidden; }
+
+#scrolllx #livetype .box { float:left;background:#FFF; overflow:hidden; display:inline-block;  }
+#scrolllx #livetype .box a { display:block; padding:6px;margin: 0 5px; }
+#scrolllx #livetype .box .select { background: #f8525e;padding:4px 6px;margin: 0 5px;color: #ffffff;border-radius: 3px }
+#scrolllx #livetype .box a:hover {background: #f8525e;padding:4px 6px;margin: 0 5px;color: #ffffff;border-radius: 3px}
+
+
+#tuscroll { width:950px; height:156px; position:relative;margin: 0 auto;border-bottom: 1px dotted #d7d7d7;padding: 33px 0 ;z-index:0;}
+#tuscroll #tubtn1 { width:14px; height:27px; cursor:pointer; position:absolute; left:10px; top:85px; z-index:99;}
+#tuscroll #tubtn2 { width:14px; height:27px; cursor:pointer; position:absolute; right:10px; top:85px; z-index:99;}
+
+#tuscroll #tuviewer { width:870px; height:156px; font-size:14px; position:absolute; left:55px; top:30px; overflow:hidden; }
+#tuscroll #tuviewerFrame { height:156px; overflow:hidden; text-align:center; }
+#tuscroll #tuviewerFrame .box { float:left; width:146px; height:156px; display:inline-block; margin-right:28px;position:relative;z-index:9;}
+#tuscroll .box_pic { width:146px; height:156px;text-align: center;background:url(../image/tvbg.png) no-repeat;background-size:100% 100%;}
+
+#tuscroll .box_pic img { width:134px; height:130px;padding-top:4px;}
+
+.tvd_indate {font-size:14px; color:#878787;   width:147px; border:0;}
+
+#divSmallBox{overflow:hidden;*display:inline;*zoom:1;width:8px;height:8px;margin:0 5px;border-radius:10px;background:#ffffff;}
+#playBox{ width:642px; height:264px;  position:relative; overflow:hidden;margin: 15px 0 10px 15px}
+#playBox .oUlplay { width:99999px; position:absolute; left:0; top:0;}
+#playBox .oUlplay li{ float:left;}
+#playBox .pre{ cursor:pointer; width:45px; height:45px; background:url(../image/l.png) no-repeat; position:absolute; top:110px; left:15px; z-index:10;}
+#playBox .next{ cursor:pointer; width:45px; height:45px; background:url(../image/r.png) no-repeat; position:absolute; top:110px; right:15px; z-index:10;}
+#playBox .smalltitle {width:642px; height:8px; position:absolute; bottom:15px; z-index:10}
+#playBox .smalltitle ul{ width:120px; margin:0 auto;}
+#playBox .smalltitle ul li{ width:8px; height:8px; margin:0 5px; border-radius:10px; background:#ffffff; float:left; overflow:hidden;*display:inline;*zoom:1;}
+#playBox .smalltitle .thistitle{ background:#f8525e;}
+
+
+
+#floatDivBoxs{width:540px;background:#fff;position:fixed;bottom:7px;left:-540px;z-index:999;}
+#floatDivBoxs .floatDtt{width:100%;height:45px;line-height:45px; background:#f08326;color:#fff;font-size:18px;text-indent:22px;position:relative;}
+#floatDivBoxs .floatDqq{padding:0 14px;}
+#floatDivBoxs .floatDqq li{height:45px;line-height:45px;font-size:15px;border-bottom:1px solid #e3e3e3; padding:0 0 0 50px;}
+#floatDivBoxs .floatDtxt{font-size:18px;color:#333;padding:12px 14px;}
+#floatDivBoxs .floatDtel{padding:0 0 15px 10px;}
+#floatDivBoxs .floatDtel img{display:block;}
+#floatDivBoxs .floatDbg{width:100%;height:20px;background:url(../images/online_botbg.jpg) no-repeat;box-shadow:-2px 0 3px rgba(0,0,0,0.25);}
+.floatShadow{ background:#fff;box-shadow:-2px 0 3px rgba(0,0,0,0.25);}
+#rightArrow{width:100px;height:112px;background:url(../image/icon_18.png) no-repeat;position:fixed;bottom:7px;left:0px;z-index:888;cursor: pointer}
+#rightArrow a{display:block;height:15px;}
+
+.radio1 {background: #000000;position: relative;}
+.radio1 .pic {float: left;padding: 9px 10px 9px 10px}
+/* .radio1 .txt {float: left;line-height: 22px;padding-top: 10px} */
+/* .radio1 .txt  h2 {max-width:250px; white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow:hidden;color: #FFFFFF;font-size: 14px;float:left;} */
+ .radio1 .txt {float: left;line-height: 22px;padding-top: 6px} 
+ .radio1 .txt  h2 {max-width:350px;max-height:40px;line-height:20px;overflow:hidden;color: #FFFFFF;font-size: 12px;float:left;color:#999;} 
+.radio1 .txt  span {background: #f8525e;color:#d4d4d4;border-radius: 10px;margin-left: 6px;padding:3px 10px;font-size: 12px;display:none;}
+.radio1 .txt  h2 marquee {width:170px;height:20px;background: #f8525e;border-radius: 8px;margin-left: 6px;color: #000000;font-weight: bold;font-size: 12px;padding:3px 7px;}
+.radio1 .bf {position: absolute;top: 4px;right: 10px;}
+.radio1 .bf a {padding-right: 10px}
+
+/* 播放按钮和滑条 排序*/
+.radio1 .play {position:absolute;top:40px;right:10px;width:320px;border:0px;}
+.radio1 .play img{cursor: pointer;float:left;padding: 5px;}
+.radio1 .play #soundBlock {top:17px;position:relative;}
+#voiceSlider {cursor: pointer;position:absolute;width: 110px; margin: 27px 188px;background:#fff;color: #fff;border:none;height:3px;}
+#playSlider {cursor: pointer;background:#401518;color: #fff;border:none;height:4px;}
+/* 日历宽度*/
+.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year {width: 55%;}
+
+/* pop */
+.pop{width:540px;}
+.pop_head{position:relative;line-height: 52px;font-size: 14px;text-align: right;background: #000000;padding-right: 30px}
+.pop_head span {float: left;font-size: 18px;width: 110px;text-align: center;background: #262626;color: #FFFFFF}
+.pop_head a{color:#9a9a9a;}
+.pop_head a.close{width:13px;height:5px;position:absolute;right:10px;line-height:20px;color:#000;text-decoration:none;top:10px;}
+.pop_body{;background:#1b1b1b;width:540px;height:100%;overflow:hidden;}
+.pop table tr td a:hover{padding: 1px;color: #f8525e;border-radius: 3px;}
+.pop table tr td {line-height: 28px;color: #778899}
+.pop_body table tr td .linka{color: #778899}
+.pop table {padding-top: 5px}
+.pop_colr1 {color: #595959}
