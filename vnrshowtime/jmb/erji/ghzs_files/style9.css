@@ -1,0 +1,116 @@
+
+
+/*通用头*/
+.top {width:980px;height:43px; background: url(../images9/top1_bg2.gif) no-repeat; margin:0 auto;}
+
+
+/*通用导航*/
+#nav {height:75px;}
+.wh660 {width:660px;}
+.wh142 {width:142px;}
+.wh179 {width:179px;}
+.wh70 {width:70px;}
+.wh72 {width:72px;}
+.wh160 {width:160px;}
+
+.Area {width:980px;margin: 0 auto; background:#ffffff;}
+.wh980 {width:980px;}
+
+/*index*/
+.nav_0 {width:978px; height:24px; line-height:24px; background:#f6f4f4; border:1px solid #efefef}
+.wh720 {width:720px;}
+.wh235 {width:235px;}
+
+/*世博*/
+.shibo_bg {width:820px; height:31px; line-height:31px; background:url(../images9/shibo_bg.gif) no-repeat; padding-left:160px;}
+
+/*内容左*/
+.Contentleft {width:370px;}
+.wh370 {width:370px;}
+.wh352 {width:352px;}
+
+/*民生*/
+.wh368 {width:368px;}
+.minsheng_bt1 {height:19px; line-height:19px; background:#f7f7f7; border:1px solid #dfdddd; border-left:none; padding-right:10px;}
+.wh192 {width:205px;}
+
+/*内容右*/
+.Contentright {width:599px;}
+.wh346 {width:346px;}
+.wh226 {width:226px;_width:226px;}
+.wh220 {width:220px;}
+.wh218 {width:218px;}
+.wh190 {width:190px;}
+.wh88 {width:88px;}
+
+
+
+/*今日导播*/
+.daobo h1 {width:218px; height:23px; line-height:23px; background:#fdfae1}
+
+/*内容下*/
+.wh90 {width:90px;}
+.wh313 {width:313px;}
+.wh140 {width:140px;}
+.wh88 {width:88px;}
+.wh162 {width:168x;}
+
+.nav_01 {width:978px; height:24px; line-height:24px; background:#f7fafb; border:1px solid #d0e2e6}
+
+
+/*erji1*/
+
+
+/*sanji*/
+#nav2 {}
+.wh797 {width:800px;}
+.wh960 {width:960px;} 
+.wh628 {width:628px;}
+.wh322 {width:322px;}
+.wh200 {width:200px;}
+.wh355 {width:355px;}
+.wh604 {width:604px;}
+.wh397 {width:397px;}
+.wh572 {width:572px;}
+.wh145 {width:145px;}
+.wh124 {width:124px;}
+.wh193 {width:193px;}
+.wh629 {width:629px;}
+.wh290 {width:290px;}
+.wh120 {width:120px;}
+.wh318 {width:318px;}
+.wh132 {width:132px;}
+.wh122 {width:115px;}
+.wh303 {width:303px;}
+.wh110 {width:110px;}
+.wh168 {width:168px;}
+.wh263 {width:263px;}
+
+.sanji_left {width:630px;}
+.sanji_left h1 {height:27px; line-height:27px;}
+.sanji_left_text_1 p {width:572px; margin:0 auto; line-height:24px; margin-top:10px; font-size:14px;}
+.sanji_left_text_2 p {width:397px;line-height:26px; margin-top:20px; font-size:14px;}
+.sanji_left_text_3 p {width:572px; margin:0 auto; line-height:24px; margin-top:20px; font-size:14px;}
+
+/*三级右*/
+.bt_right {width:320px; height:38px; line-height:38px; background:url(../images9/sanji_h1.gif) no-repeat;}
+.bt_right_00 {width:320px; height:38px; line-height:38px; background:url(../images9/sanji_h2.gif) no-repeat;}
+.bt_right_0 {height:31px; line-height:31px; background:url(../images9/sanji_bg.gif) repeat-x;}
+.bgcolor_fffeed { background:#fffeed;}
+/*24文字排行*/
+.bg1 {width:16px; height:15px; line-height:15px; color:#FFFFFF; background:url(../images9/haihang_bg.gif) no-repeat; text-align:center; margin-right:8px;}
+.bg2 {width:16px; height:15px; line-height:15px; color:#FFFFFF; background:url(../images9/haihang_bg2.gif) no-repeat; text-align:center; margin-right:8px;}
+
+
+/*文字滚动*/
+.scroll_div {width:650px;margin-left:10px;_margin-left:5px;height:29px; overflow: hidden; white-space: nowrap; float:left; }
+#scroll_begin, #scroll_end, #scroll_begin ul, #scroll_end ul, #scroll_begin ul li, #scroll_end ul li{display:inline;}/*设置ul和li横排*/
+
+
+
+
+
+
+
+
+
