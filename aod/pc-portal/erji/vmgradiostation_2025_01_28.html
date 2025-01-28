@@ -1,0 +1,143 @@
+<html lang="en"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+    
+    <title>禾听-动听在禾听</title>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <link type="text/css" rel="stylesheet" href="./vmgradiostation_2025_01_28_files/global.css">
+    <link type="text/css" rel="stylesheet" href="./vmgradiostation_2025_01_28_files/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="./vmgradiostation_2025_01_28_files/styleRadio.css">
+    <link type="text/css" rel="stylesheet" href="./vmgradiostation_2025_01_28_files/register.css">
+    <link type="text/css" rel="stylesheet" href="./vmgradiostation_2025_01_28_files/style.css">
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/crypto-js.min.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/dataParse.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/encrypt.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/jquery-3.6.0.min.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/jquery-migrate-1.4.1.min.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/jquery.imageScroller.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/jquery.cookie.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/jquery-ui.min.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/redis-ip.js.下载"></script>
+    <script type="text/javascript" src="./vmgradiostation_2025_01_28_files/hiradio.min.js.下载"></script>
+ 
+    <div class="mask"></div>
+    <!--导航开始-->
+    <!--导航开始-->
+    <div class="header">
+        <div class="content all_width">
+            <div class="logo"><a href="javascript:;"><img src="./vmgradiostation_2025_01_28_files/logo01.jpg" width="170" height="66" alt=""></a></div>
+            <div class="nav">
+                <ul>
+                    <!-- <li><a href="https://icloud.radio.cn/am">首页</a></li>-->
+                    <li></li>
+                    <li class="selected"><a href="https://hebiandeyang.github.io/aod/pc-portal/erji/aod/pc-portal/erji/vmgradiostation.html">电台直播</a></li>
+                    <!-- <li><a href="./classification.html">分类</a></li> -->
+                    <!-- <li><a href="./podcast.html">主播</a></li> -->
+                    <li><a href="https://hebiandeyang.github.io/aod/pc-portal/erji/aod/pc-portal/erji/ghzs.html">广禾之声</a></li>
+		    <li><a href="https://hebiandeyang.github.io/aod/pc-portal/erji/vnrshowtime/vnrshowtime.html">节目时间表</a></li>
+                    <!-- <li><a href="/icloud/applicationQuery.html">云平台</a></li> -->
+                    <!-- <li><a href="https://icloud.radio.cn/am/application/application.action?actionmethod=init">云平台</a></li>-->
+                    <!-- <li style="font-size:12px;line-height:20px" class="yun"><a href="https://icloud.radio.cn/am"><span>Radio<sup>+</sup></span><br/>中国广播云平台</a></li> -->
+                </ul>
+            </div>
+            <!-- <div class="login">
+            <a href="javascript:;" class="register_btn">注册</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="javascript:;" class="login_btn">登录</a>
+        </div> -->
+            <!-- <div class="search">
+                <span><a href=""><img src="../image/icon_02.gif" onclick="searchDetail();return false;" alt=""/></a></span>
+                <input type="text" id="searchAll" value="" onkeydown="keyDown(event)" placeholder="搜索节目" onfocus="if (this.value == '搜索节目' || this.value == '搜索节目') { this.value = ''; this.style.color = 'black';}; " onblur="if (this.value == '' || this.value == '搜索节目') { this.value = '搜索节目'; this.style.color = '#ccc'; }" style="color: rgb(204, 204, 204);">
+                <div class="search_record"></div>
+            </div> -->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--内容开始-->
+    <div class="content">
+        <div class="radio">
+            
+            <div class="block2">
+                <h2><span>点播回听</span></h2>
+                <div class="cut1">
+                    <ul>
+                        <li><select id="selectOptions">
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            <option value="1">广禾之声</option><option value="2">交通资讯广播</option><option value="3">春巨之声</option><option value="4">瑜禾乡村之声</option><option value="5">归园之声</option><option value="6">民族之声</option><option value="7">体育赛事频率</option></select></li>
+                        
+                    <li><a onclick="searchChannal();return false;" href="" style="padding:10px 22px 10px;display:block;line-height:1;">搜索</a> </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            
+            <h2 id="timeTitle"><p>2025年1月28日 星期二</p></h2>
+            <div class="sort">
+                <div class="sort_left">
+                    <ul id="radioList"><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;1&#39;)" value="1"><div style="display: flex;align-items: center;"><span class="after"><a href="javascript:;" style="display: inline-block;">广禾之声</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;2&#39;)" value="2"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">交通资讯广播</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;3&#39;)" value="3"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">春巨之声</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;4&#39;)" value="4"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">瑜禾乡村之声</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;5&#39;)" value="5"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">归园之声</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;6&#39;)" value="6"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">民族之声</a></span></div></li><li style="display: flex;align-items: center;" onclick="chooseRadio(&#39;6&#39;)" value="7"><div style="display: flex;align-items: center;"><span><a href="javascript:;" style="display: inline-block;">体育赛事频率</a></span></div></li></ul>
+                </div>
+            </div>
+            <div class="block2_right">
+                <div class="cut2">
+                    <table border="0" cellpadding="0" cellspacing="0" width="540" id="programList">
+                    <tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr><td width="170">00:00:00-06:00:00</td>
+<td width="280"><a href="javascript:;" data-url="" onclick="playLiveRecordProxy(&#39;);" data-channelid="1">昨日新闻重现</a></td></tr><tr><td width="170">06:00:00-06:30:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">早间新闻</a></td></tr><tr><td width="170">06:30:00-07:00:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" target="_blank" data-channelid="1">今日重要报摘</a></td></tr><tr><td width="170">07:00:00-09:00:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">瑜禾纵横</a></td></tr><tr><td width="170">09:00:00-09:30:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">今日重要报摘（重播）</a></td></tr><tr><td width="170">09:30:00-11:00:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_09-30-00_11-00-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_09-30-00_11-00-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_09-30-00_11-00-00_l.mp3" data-channelid="1">《戊城声音戊城年》（杨珩、明桃、岑路连）</a></td></tr><tr><td width="170">11:00:00-12:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_11-00-00_12-30-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_11-00-00_12-30-00_l.mp3
+" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_11-00-00_12-30-00_l.mp3
+" target="_blank" data-channelid="1">《戊城声音戊城年》（何轶滨、杨珩、玖越）</a></td></tr><tr><td width="170">12:30:00-13:00:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_12-30-00_13-00-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_12-30-00_13-00-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_12-30-00_13-00-00_l.mp3" data-channelid="1">春节特别节目《戊城声音戊城年》（面对面）</a></td></tr><tr><td width="170">13:00:00-13:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-00-00_13-30-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-00-00_13-30-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-00-00_13-30-00_l.mp3" target="_blank" data-channelid="1">春节特别节目《戊城声音戊城年》（朝花夕拾）</a></td></tr><tr><td width="170">13:30:00-16:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-30-00_16-30-00_l.mp3" data-url=""https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-30-00_16-30-00_l.mp3 onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_13-30-00_16-30-00_l.mp3" target="_blank" data-channelid="1">新禾广播电视总台春节特别节目《戊城声音戊城年》（重播）</a></td></tr><tr><td width="170">16:30:00-17:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_16-30-00_17-30-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_16-30-00_17-30-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_16-30-00_17-30-00_l.mp3" data-channelid="1">春节特别节目《戊城声音戊城年》（重播）</a></td></tr><tr><td width="170">17:30:00-18:30:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">瑜禾晚高峰</a></td></tr><tr><td width="170">18:30:00-19:00:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">国内新闻联播</a></td></tr><tr><td width="170">19:00:00-20:00:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">瑜禾晚高峰</a></td></tr><tr><td width="170">20:00:00-20:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_20-00-00_20-30-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_20-00-00_20-30-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_20-00-00_20-30-00_l.mp3" target="_blank" data-channelid="1">新禾广播电视总台春节特别节目《戊城声音戊城年》（重播）</a></td></tr><tr><td width="170">20:30:00-21:00:00</td><td width="280"><a href="javascript:;" data-url="" onclick="" data-channelid="1">国内新闻联播（重播）</a></td></tr><tr><td width="170">21:00:00-23:30:00</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_21-00-00_23-30-00_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_21-00-00_23-30-00_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_21-00-00_23-30-00_l.mp3" target="_blank" data-channelid="1">新禾广播电视总台春节特别节目《戊城声音戊城年》（重播）</a></td></tr><tr><td width="170">23:30:00-23:59:59</td><td width="280"><a href="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_23-30-00_23-59-59_l.mp3" data-url="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_23-30-00_23-59-59_l.mp3" onclick="https://hebiandeyang.github.io/aod/hrtvcloud/audio/2025/01/28/ghzs/ghzs_2025-01-28_23-30-00_23-59-59_l.mp3" target="_blank" onclick="playLiveRecordProxy(&#39;&#39;,&#39;朝花夕拾&#39;,&#39;&#39;,&#39;1&#39;);" data-channelid="1">朝花夕拾</a></td></tr></tbody></table>
+                </div>
+                
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </div>
+    <!--内容开始-->
+    <div class="radio1" id="TopPlayer"></div>
+    <div id="streamBox" style="display:none;"></div>
+    <div id="rightArrow">
+        <img src="./vmgradiostation_2025_01_28_files/bofang.png" alt="" class="backImg">
+        <a href="javascript:;"></a>
+    </div>
+    <div id="HiRadioPlayer" class="radio1"><div class="progressBar"><p></p></div><img src="./vmgradiostation_2025_01_28_files/icon_32.jpg" alt="" onerror="javascript:this.src=&#39;../image/icon_32.jpg&#39;"><div class="playDetail"><h2><i></i> <span>-</span></h2><p><span class="during"><b class="cur">00:00</b><b class="dur">/00:00</b></span></p></div><div class="controlBox"><span class="prevBtn"></span><span class="playBtn"></span><span class="nextBtn"></span><div class="voiceSlider"><p></p></div><span class="voice"></span></div></div>
+    <!--尾部开始-->
+    <div class="footer">
+        <div class="foot_down">
+            <div class="footd_right">
+                <p>新禾广播电视总台声音新媒体平台 禾听</p><p>蒂姆普文化传播 版权所有</p>
+                            
+                            <p></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+       
+
+</body></html>
