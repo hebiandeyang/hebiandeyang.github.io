@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电台主持人排班系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-container {
+            margin-right: 20px;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="./vmg2.png" alt="Logo" class="logo">
+    </div>
+    <h1>电台主持人排班系统</h1>
+</header>
+
+<div class="container">
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>节目名称</th>
+                <th>负责部门</th>
+                <th>主持人</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 数据将由JavaScript动态插入 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    async function fetchSchedule() {
+        try {
+            const response = await fetch('http://101.200.60.217/schedule.txt');
+            if (!response.ok) {
+                throw new Error('无法加载排班表');
+            }
+            const data = await response.text();
+            parseAndDisplayData(data);
+        } catch (error) {
+            console.error(error);
+            document.getElementById('scheduleTable').innerHTML = '<tr><td colspan="4">无法加载排班表，请稍后再试。</td></tr>';
+        }
+    }
+
+    function parseAndDisplayData(data) {
+        const lines = data.trim().split('\n');
+        const tableBody = document.querySelector('#scheduleTable tbody');
+
+        // Skip the first line as it contains headers
+        for (let i = 1; i < lines.length; i++) {
+            const columns = lines[i].split(',');
+            const row = document.createElement('tr');
+
+            columns.forEach(column => {
+                const cell = document.createElement('td');
+                cell.textContent = column.trim();
+                row.appendChild(cell);
+            });
+
+            tableBody.appendChild(row);
+        }
+    }
+
+    // Fetch and display the schedule on page load
+    window.onload = fetchSchedule;
+</script>
+
+</body>
+</html>
